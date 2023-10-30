@@ -1,54 +1,69 @@
-declare const window: typeof globalThis & {
-  IMP: any;
-};
+import { gql, useApolloClient, useQuery } from "@apollo/client";
+import type {
+  IQuery,
+  IQueryFetchBoardsArgs,
+} from "../../../src/commons/types/generated/types";
+import type { MouseEvent } from "react";
+import { useRouter } from "next/router";
 
-export default function PaymentPage(): JSX.Element {
-  const onClickPayment = (): void => {
-    const IMP = window.IMP;
-    IMP.init("imp76042107"); // 예: 'imp00000000a'
+const FETCH_BOARDS = gql`
+  query fetchBoards($page: Int) {
+    fetchBoards(page: $page) {
+      _id
+      writer
+      title
+      contents
+    }
+  }
+`;
 
-    IMP.request_pay(
-      {
-        // param
-        pg: "kakaopay",
-        pay_method: "card",
-        // merchant_uid: "ORD20180131-0000011",    // 귀찮으니 자동 생성
-        name: "노르웨이 회전 의자",
-        amount: 100,
-        buyer_email: "gildong@gmail.com",
-        buyer_name: "홍길동",
-        buyer_tel: "010-4242-4242",
-        buyer_addr: "서울특별시 강남구 신사동",
-        buyer_postcode: "01181",
-        m_redirect_url: "http://localhost:3000/section28/28-01-payment", // 모바일에서는 결제 주소가 바뀜 결제 후 돌아올 페이지
-      },
-      (rsp: any) => {
-        // callback
-        if (rsp.success === true) {
-          // 결제 성공 시 로직,
-          console.log(rsp);
+const FETCH_BOARD = gql`
+  query fetchBoard($boardId: ID!) {
+    fetchBoard(boardId: $boardId) {
+      _id
+      writer
+      title
+      contents
+    }
+  }
+`;
 
-          // 백엔드에 결제관련 데이터 넘겨주기 => mutation 실행하기
-          // createPointTransactionLoading
-        } else {
-          // 결제 실패 시 로직,
-        }
-      },
-    );
+export default function StaticRoutingMovedPage(): JSX.Element {
+  const { data } = useQuery<Pick<IQuery, "fetchBoards">, IQueryFetchBoardsArgs>(
+    FETCH_BOARDS,
+  );
+
+  const client = useApolloClient();
+  const router = useRouter();
+
+  const prefetchBoard = (boardId: string) => async () => {
+    await client.query({
+      query: FETCH_BOARD,
+      variables: { boardId },
+    });
+  };
+
+  const onClickMove = (boardId: string) => (): void => {
+    void router.push(`/section31/31-10-data-prefetch-moved/${boardId}`);
   };
 
   return (
     <>
-      <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
-      <div>a</div>
-      <div>a</div>
-      <div>a</div>
-      <div>a</div>
-      <div>a</div>
-      <div>a</div>
-      <div>a</div>
-      <div>a</div>
-      <button onClick={onClickPayment}>결제하기</button>
+      {data?.fetchBoards.map((el) => (
+        <div key={el._id}>
+          <span
+            style={{ margin: "10px" }}
+            onMouseOver={prefetchBoard(el._id)}
+            onClick={onClickMove(el._id)}
+          >
+            {" "}
+            {el.writer}
+          </span>
+          <span style={{ margin: "10px" }}>{el.title}</span>
+        </div>
+      ))}
     </>
   );
 }
+
+// 디바운싱으로 마지막?

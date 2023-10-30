@@ -25,7 +25,7 @@ export default function ProductDetailBottom(): JSX.Element {
 
   const [toggleUseditemPick] = useMutationToggleUsedItemPick();
   const [deleteUsedItem] = useMutationDeleteUsedItem();
-  const image = data?.fetchUseditem.images[0];
+  const image = data?.fetchUseditem.images;
   const address = data?.fetchUseditem.useditemAddress?.address;
 
   const onClickPick = async (): Promise<void> => {
@@ -33,12 +33,28 @@ export default function ProductDetailBottom(): JSX.Element {
       variables: {
         useditemId: String(router.query.number),
       },
-      refetchQueries: [
-        {
+      optimisticResponse: {
+        toggleUseditemPick: (data?.fetchUseditem.pickedCount ?? 0) + 1,
+      },
+      update: (cache, { data }) => {
+        cache.writeQuery({
           query: USED_ITEM,
           variables: { useditemId: String(router.query.number) },
-        },
-      ],
+          data: {
+            fetchUseditem: {
+              _id: String(router.query.number),
+              __typename: "Useditem",
+              pickedCount: data?.toggleUseditemPick,
+            },
+          },
+        });
+      },
+      // refetchQueries: [
+      //   {
+      //     query: USED_ITEM,
+      //     variables: { useditemId: String(router.query.number) },
+      //   },
+      // ],
     });
   };
 
@@ -58,6 +74,8 @@ export default function ProductDetailBottom(): JSX.Element {
     console.log(isEdit);
   };
 
+  console.log(data);
+
   return (
     <>
       <S.Wrapper>
@@ -71,9 +89,17 @@ export default function ProductDetailBottom(): JSX.Element {
         <S.WrapperBottom>
           <S.Price>{data?.fetchUseditem.price}원 </S.Price>
           <S.ImageBox>
-            {image && (
+            {/* {image && (
               <S.Image src={`https://storage.googleapis.com/${image}`} />
-            )}
+            )} */}
+            {data?.fetchUseditem.images
+              ?.filter((el) => el)
+              .map((el) => (
+                <S.Image
+                  key={el}
+                  src={`https://storage.googleapis.com/${el}`}
+                />
+              ))}
           </S.ImageBox>
           <S.Content
             dangerouslySetInnerHTML={{

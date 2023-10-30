@@ -1,8 +1,10 @@
 import { FormEvent } from "react";
 
-export const wrapAsync = (비동기함수: () => Promise<void>) => () => {
-  void 비동기함수();
-};
+export const wrapAsync =
+  <E>(비동기함수: (event: E) => Promise<void>) =>
+  (event: E) => {
+    void 비동기함수(event);
+  };
 
 export const wrapFormAsync =
   (비동기함수: () => Promise<void>) => (event: FormEvent<HTMLFormElement>) => {

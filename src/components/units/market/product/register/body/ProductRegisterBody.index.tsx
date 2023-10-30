@@ -4,20 +4,17 @@ import { wrapFormAsync } from "../../../../../../commons/libraries/asyncFunc";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { productRegisterSchema } from "../../../../../commons/validation/Main";
 import InputLong from "../../../../../commons/Input/long";
-import Textarea01 from "../../../../../commons/Input/textarea";
 import Button01 from "../../../../../commons/button/01";
 import InputLongNormal from "../../../../../commons/Input/longNormal";
 import { useRouter } from "next/router";
 import ImageUpload01 from "../../../../../commons/imageUpload/imageUpload";
 import { useMutationCreateUsedItem } from "../../../../../commons/hooks/mutations/useMutationCreateUsedItem";
-import { useQueryFetchUsedItem } from "../../../../../commons/hooks/queries/useQueryFetchUsedItem";
-import { useMutationUpdateUsedItem } from "../../../../../commons/hooks/mutations/useMutationUpdateUsedItem";
 import { useState } from "react";
 import { Address } from "react-daum-postcode";
-import { add } from "lodash";
 import KakaoMapPage from "../../../../../commons/maps/02-address";
 import { ReactQuill } from "../../../../../commons/react-quill";
 import "react-quill/dist/quill.snow.css";
+import { useMutationUploadFile } from "../../../../../commons/hooks/mutations/useMutationUploadFile";
 
 export interface IFormData {
   name: string;
@@ -40,6 +37,9 @@ export default function ProductRegisterBody(): JSX.Element {
   const [zipcode, setZipcode] = useState("");
   const [address, setAddress] = useState("");
   const [addressDetail, setAddressDetail] = useState("");
+  const [files, setFiles] = useState<File[]>([]);
+
+  const [uploadFile] = useMutationUploadFile();
 
   const onChangeAddress = (event: ChangeEvent<HTMLInputElement>): void => {
     setZipcode(event.target.value);
@@ -50,6 +50,13 @@ export default function ProductRegisterBody(): JSX.Element {
 
   const onClickSubmit = async (data: IFormData): Promise<void> => {
     console.log(data);
+
+    const results = await Promise.all(
+      files.map(async (el) => await uploadFile({ variables: { file: el } })),
+    );
+    console.log(results); // r[resultFile0, resultFile1, resultFile2]
+    const resultUrls = results.map((el) => el.data?.uploadFile.url);
+
     const result = await createUseditem({
       variables: {
         createUseditemInput: {
@@ -57,7 +64,7 @@ export default function ProductRegisterBody(): JSX.Element {
           remarks: data.remarks,
           contents: data.contents,
           price: data.price,
-          images: data.images,
+          images: resultUrls,
           useditemAddress: {
             zipcode,
             address,
@@ -133,6 +140,8 @@ export default function ProductRegisterBody(): JSX.Element {
           setValue={setValue}
           register={register("images")}
           onChange={onChangeImages}
+          files={files}
+          setFiles={setFiles}
         />
       </div>
       <S.LoacationBox>

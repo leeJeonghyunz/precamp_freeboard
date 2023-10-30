@@ -25,6 +25,8 @@ export const PickCountDiv = styled.div`
 
 export const PickCountHeart = styled.div`
   color: gold;
+  font-size: 25px;
+  cursor: pointer;
 `;
 
 export const PickCount = styled.div``;
@@ -40,7 +42,8 @@ export const Price = styled.div`
 export const ImageBox = styled.div`
   width: 100%;
   display: flex;
-  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 `;
 
 export const Image = styled.img`
