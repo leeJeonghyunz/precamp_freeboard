@@ -4,8 +4,13 @@ import { useRouter } from "next/router";
 import { useRecoilState } from "recoil";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schema } from "../../commons/validation/Main";
-import { accessTokenState, isLoginState } from "../../../commons/stores";
+import {
+  accessTokenState,
+  accessTokenUserName,
+  isLoginState,
+} from "../../../commons/stores";
 import { useMutationLoginUser } from "../../commons/hooks/mutations/useMutaitonLoginUser";
+import { FETCH_USER_LOGGED_IN } from "./Main.queries";
 
 interface IFormData {
   email: string;
@@ -34,6 +39,11 @@ export default function MainPage(): JSX.Element {
         email: data.email,
         password: data.password,
       },
+      refetchQueries: [
+        {
+          query: FETCH_USER_LOGGED_IN,
+        },
+      ],
     });
     const accessToken = result.data?.loginUser.accessToken;
     if (accessToken === undefined) {

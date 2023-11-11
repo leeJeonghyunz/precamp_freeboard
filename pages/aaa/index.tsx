@@ -1,16 +1,21 @@
 import { useState } from "react";
 
 export default function StaticRoutingMovedPage(): JSX.Element {
-  const [isEdit, setIsEdit] = useState(false);
+  const [text, setText] = useState("");
 
-  const aa = () => {
-    setIsEdit((prev) => !prev);
+  const aa = (e) => {
+    setText(e.target.value);
   };
-  console.log(isEdit);
+
+  const bb = () => {
+    setText("");
+  };
 
   return (
     <>
-      <button onClick={aa}></button>
+      <input value={text} onChange={aa} />
+      <button onClick={bb}> 초기화버튼</button>
+      <p>{text}</p>
     </>
   );
 }

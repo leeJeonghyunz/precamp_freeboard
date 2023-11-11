@@ -11,7 +11,10 @@ import { useRecoilState, useRecoilValueLoadable } from "recoil";
 import { useEffect } from "react";
 import { onError } from "@apollo/client/link/error";
 import { getAccessToken } from "../../commons/libraries/getAccessToken";
-import { accessTokenState, restoreAccessTokenLoadable } from "../../commons/stores";
+import {
+  accessTokenState,
+  restoreAccessTokenLoadable,
+} from "../../commons/stores";
 
 const GLOBAL_STATE = new InMemoryCache();
 interface IApolloSettings {
@@ -95,7 +98,7 @@ export default function ApolloSetting(props: IApolloSettings): JSX.Element {
               });
               //             // 3-3 방금 수정한 쿼리 재요청
             }),
-          ).flatMap(()=>forward(operation))
+          ).flatMap(() => forward(operation));
         }
       }
     }

@@ -1,7 +1,7 @@
 import CommentWriteUI from "./BoardComment.presenter";
 import { FETCH_COMMENTS } from "../list/BoardCommentList.queries";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { ChangeEvent } from "react";
 import type { IUpdateBoardCommentInput } from "../../../../../commons/types/generated/types";
 import type { ICommentWriteProps } from "./BoardComment.types";
@@ -101,6 +101,9 @@ export default function CommentWrite(props: ICommentWriteProps): JSX.Element {
       isEdit={props.isEdit}
       onClickEdit={onClickEdit}
       writer={writer}
+      password={password}
+      contents={contents}
+      star={star}
       el={props.el}
       data={props.data}
     />

@@ -1,13 +1,18 @@
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { restoreAccessTokenLoadable } from "../../../../commons/stores";
+import { useRecoilValueLoadable } from "recoil";
 
 export const useAuth = (): void => {
   const router = useRouter();
+  const aaa = useRecoilValueLoadable(restoreAccessTokenLoadable);
 
   useEffect(() => {
-    if (localStorage.getItem("accessToken") === null) {
-      alert("로그인이 필요합니다.");
-      void router.push("/main");
-    }
+    void aaa.toPromise().then((newAccessToken) => {
+      if (newAccessToken === undefined) {
+        alert("로그인 후 이용가능합니다.");
+        void router.push("/main");
+      }
+    });
   }, []);
 };

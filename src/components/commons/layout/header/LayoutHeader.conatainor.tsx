@@ -3,13 +3,15 @@ import LayoutHeaderUI from "./LayoutHeader.presenter";
 import { FETCH_USER_LOGGED_IN } from "../../../units/main/Main.queries";
 import type { IQuery } from "../../../../commons/types/generated/types";
 import { useQuery } from "@apollo/client";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValueLoadable } from "recoil";
 import {
   accessTokenState,
   accessTokenUserName,
   isLoginState,
+  restoreAccessTokenLoadable,
 } from "../../../../commons/stores";
 import { useMutationLogoutUser } from "../../hooks/mutations/useMutationLogoutUser";
+import { useEffect } from "react";
 
 export default function LayoutHeader(): JSX.Element {
   const router = useRouter();
@@ -17,11 +19,18 @@ export default function LayoutHeader(): JSX.Element {
   const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const [userName, setUserName] = useRecoilState(accessTokenUserName);
+  const aaa = useRecoilValueLoadable(restoreAccessTokenLoadable);
 
   const { data } =
     useQuery<Pick<IQuery, "fetchUserLoggedIn">>(FETCH_USER_LOGGED_IN);
   if (data !== undefined) {
-    setUserName(data.fetchUserLoggedIn.name);
+    const a = data.fetchUserLoggedIn.name;
+    setUserName(a);
+    console.log(data);
+    console.log(a);
+  } else {
+    setUserName("");
+    console.log("1");
   }
 
   const onClickLogo = (): void => {
@@ -31,6 +40,8 @@ export default function LayoutHeader(): JSX.Element {
   const onClickLogin = (): void => {
     void router.push("/main");
     console.log(userName);
+    console.log(accessToken);
+    console.log(isLogin);
   };
 
   const onClickJoin = (): void => {
@@ -38,14 +49,19 @@ export default function LayoutHeader(): JSX.Element {
   };
 
   const onClcikLogout = async (): Promise<void> => {
-    await logoutUser();
+    const result = await logoutUser({
+      refetchQueries: [
+        {
+          query: FETCH_USER_LOGGED_IN,
+        },
+      ],
+    });
     setAccessToken("");
     setIsLogin(false);
     setUserName("");
+    console.log(result);
+    console.log(data);
   };
-  console.log(accessToken);
-  console.log(isLogin);
-  console.log(userName);
 
   return (
     <LayoutHeaderUI

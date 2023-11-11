@@ -14,8 +14,11 @@ import type {
 import type { Address } from "react-daum-postcode";
 import { result } from "lodash";
 import { FETCH_BOARD } from "../detail/BoardDetail.queries";
+import { useAuth } from "../../../commons/hooks/custom/useAuth";
 
 export default function BoardWrite(props: IBoardWriteProps): JSX.Element {
+  useAuth();
+
   const router = useRouter();
   const fileRef = useRef<HTMLInputElement>(null);
 
