@@ -6,8 +6,8 @@ export const accessTokenState = atom({
   default: "",
 });
 
-export const accessTokenDataName = atom({
-  key: "accessTokenDataName",
+export const accessTokenUserName = atom({
+  key: "accessTokenUserName",
   default: "",
 });
 

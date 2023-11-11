@@ -8,18 +8,22 @@ export default function JoinUI(props: IJoinUIProps): JSX.Element {
     <div>
       <S.Wrapper>
         <S.Title>가입하기</S.Title>
-        <form onSubmit={props.handleSubmit(props.onClickSubmit)}>
-          이메일 <Input01 register={props.register("email")} />
-          <div>{props.formState.errors.email?.message}</div>
-          패스워드 <Input01 register={props.register("password")} />
-          <div>{props.formState.errors.password?.message}</div>
-          이름 <Input01 register={props.register("name")} />
-          <div>{props.formState.errors.name?.message}</div>
-          <Button01
-            title="회원가입"
-            isActive={props.formState.isValid}
-          ></Button01>
-        </form>
+        <div>
+          <form onSubmit={props.handleSubmit(props.onClickSubmit)}>
+            <S.FormWrapper>
+              이메일 <Input01 register={props.register("email")} />
+              <S.ErrMsg>{props.formState.errors.email?.message}</S.ErrMsg>
+              패스워드 <Input01 register={props.register("password")} />
+              <S.ErrMsg>{props.formState.errors.password?.message}</S.ErrMsg>
+              이름 <Input01 register={props.register("name")} />
+              <S.ErrMsg>{props.formState.errors.name?.message}</S.ErrMsg>
+              <Button01
+                title="회원가입"
+                isActive={props.formState.isValid}
+              ></Button01>
+            </S.FormWrapper>
+          </form>
+        </div>
       </S.Wrapper>
     </div>
   );

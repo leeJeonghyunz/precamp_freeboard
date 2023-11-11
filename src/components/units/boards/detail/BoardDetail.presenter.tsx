@@ -2,6 +2,7 @@ import * as S from "./BoardDetail.style";
 import { getDate } from "../../../commons/libraries/utils";
 import type { IBoardDetailUIProps } from "./BoardDetail.types";
 import { Tooltip } from "antd";
+import DOMPurify from "dompurify";
 
 export default function BoardDetailUI(props: IBoardDetailUIProps): JSX.Element {
   return (
@@ -16,6 +17,9 @@ export default function BoardDetailUI(props: IBoardDetailUIProps): JSX.Element {
                 <div>{getDate(props.data?.fetchBoard?.createdAt)}</div>
               </S.InfoBody>
             </S.Info>
+            <S.TitleDiv>
+              <S.Title>{props.data?.fetchBoard?.title}</S.Title>
+            </S.TitleDiv>
             <S.Icon>
               <S.LinkIcon></S.LinkIcon>
               <Tooltip
@@ -29,16 +33,23 @@ export default function BoardDetailUI(props: IBoardDetailUIProps): JSX.Element {
             </S.Icon>
           </S.WrapperTop>
           <S.WrapperContents>
-            <S.Title>{props.data?.fetchBoard?.title}</S.Title>
-            {props.data?.fetchBoard.images
-              ?.filter((el) => el)
-              .map((el) => (
-                <S.Image
-                  key={el}
-                  src={`https://storage.googleapis.com/${el}`}
-                ></S.Image>
-              ))}
-            <S.Contents>{props.data?.fetchBoard?.contents}</S.Contents>
+            <S.ImageBox>
+              {props.data?.fetchBoard.images
+                ?.filter((el) => el)
+                .map((el) => (
+                  <S.Image
+                    key={el}
+                    src={`https://storage.googleapis.com/${el}`}
+                  ></S.Image>
+                ))}
+            </S.ImageBox>
+            {process.browser && (
+              <S.Contents
+                dangerouslySetInnerHTML={{
+                  __html: DOMPurify.sanitize(props.data?.fetchBoard?.contents),
+                }}
+              />
+            )}
           </S.WrapperContents>
           <S.WrapperBottom>
             {props.data?.fetchBoard.youtubeUrl !== "" && (
@@ -62,7 +73,7 @@ export default function BoardDetailUI(props: IBoardDetailUIProps): JSX.Element {
           <S.Footer>
             <S.FooterBtn onClick={props.onClickMoveList}>목록으로</S.FooterBtn>
             <S.FooterBtn onClick={props.onClickMoveEdit}>수정하기</S.FooterBtn>
-            <S.FooterBtn>삭제하기</S.FooterBtn>
+            <S.FooterBtn onClick={props.onClickDelete}>삭제하기</S.FooterBtn>
           </S.Footer>
         </S.Wrapper>
       </S.Body>

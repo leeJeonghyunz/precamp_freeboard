@@ -33,8 +33,14 @@ export default function CommentWrite(props: ICommentWriteProps): JSX.Element {
     setContents(event.target.value);
   }
 
+  const resetFields = () => {
+    setWriter("");
+    setPassword("");
+    setContents("");
+  };
+
   const onClickSubmit = async (): Promise<void> => {
-    await createBoardComment({
+    const result = await createBoardComment({
       variables: {
         createBoardCommentInput: {
           writer,
@@ -51,30 +57,38 @@ export default function CommentWrite(props: ICommentWriteProps): JSX.Element {
         },
       ],
     });
+    console.log(writer);
+    resetFields();
   };
 
   const onClickEdit = async (): Promise<void> => {
     const updateBoardCommentInput: IUpdateBoardCommentInput = {};
     if (contents !== "") updateBoardCommentInput.contents = contents;
+    if (star !== 0) updateBoardCommentInput.rating = star;
 
     if (typeof props.el?._id !== "string") {
       alert("시스템에 문제가 있습니다.");
       return;
     }
-    await updateBoardComment({
-      variables: {
-        updateBoardCommentInput,
-        password,
-        boardCommentId: props.el?._id,
-      },
-      refetchQueries: [
-        {
-          query: FETCH_COMMENTS,
-          variables: { boardId: router.query.number },
+    try {
+      const result = await updateBoardComment({
+        variables: {
+          updateBoardCommentInput,
+          password,
+          boardCommentId: props.el?._id,
         },
-      ],
-    });
-    props.setIsEdit(false);
+        refetchQueries: [
+          {
+            query: FETCH_COMMENTS,
+            variables: { boardId: router.query.number },
+          },
+        ],
+      });
+      console.log(result);
+      props.setIsEdit(false);
+    } catch (error) {
+      if (error instanceof Error) alert(error.message);
+    }
   };
 
   return (
@@ -88,6 +102,7 @@ export default function CommentWrite(props: ICommentWriteProps): JSX.Element {
       onClickEdit={onClickEdit}
       writer={writer}
       el={props.el}
+      data={props.data}
     />
   );
 }

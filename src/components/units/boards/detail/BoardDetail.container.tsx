@@ -1,9 +1,15 @@
-import { DISLIKE_BOARD, FETCH_BOARD, LIKE_BOARD } from "./BoardDetail.queries";
+import {
+  DELETE_BOARD,
+  DISLIKE_BOARD,
+  FETCH_BOARD,
+  LIKE_BOARD,
+} from "./BoardDetail.queries";
 import { useRouter } from "next/router";
 import { useMutation, useQuery } from "@apollo/client";
 import BoardDetailUI from "./BoardDetail.presenter";
 import type {
   IMutation,
+  IMutationDeleteBoardArgs,
   IMutationDislikeBoardArgs,
   IMutationLikeBoardArgs,
 } from "../../../../commons/types/generated/types";
@@ -11,7 +17,7 @@ import type {
 export default function BoardDetail(): JSX.Element {
   const router = useRouter();
 
-  const { data } = useQuery(FETCH_BOARD, {
+  const { data, refetch } = useQuery(FETCH_BOARD, {
     variables: { _id: String(router.query.number) },
   });
 
@@ -26,6 +32,11 @@ export default function BoardDetail(): JSX.Element {
     Pick<IMutation, "dislikeBoard">,
     IMutationDislikeBoardArgs
   >(DISLIKE_BOARD);
+
+  const [deleteBoard] = useMutation<
+    Pick<IMutation, "deleteBoard">,
+    IMutationDeleteBoardArgs
+  >(DELETE_BOARD);
 
   const onClickMoveList = (): void => {
     void router.push("list");
@@ -63,6 +74,17 @@ export default function BoardDetail(): JSX.Element {
     });
   };
 
+  const onClickDelete = async (): Promise<void> => {
+    await deleteBoard({
+      variables: {
+        boardId: String(router.query.number),
+      },
+    });
+    void router.push("/boards/list");
+  };
+
+  void refetch();
+
   return (
     <BoardDetailUI
       data={data}
@@ -70,6 +92,7 @@ export default function BoardDetail(): JSX.Element {
       onClickMoveEdit={onClickMoveEdit}
       onClickLike={onClickLike}
       onClickDisLike={onClickDisLike}
+      onClickDelete={onClickDelete}
     />
   );
 }

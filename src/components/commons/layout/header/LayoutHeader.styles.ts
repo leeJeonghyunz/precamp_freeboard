@@ -28,6 +28,10 @@ export const LoginWrapper = styled.div`
   justify-content: space-between;
 `;
 
+export const BtnWrapper = styled.div`
+  display: flex;
+`;
+
 export const Btn = styled.button`
   width: 100px;
   height: 50px;

@@ -1,6 +1,7 @@
+import type { MouseEvent } from "react";
 import type { FormState } from "react-hook-form";
 
-interface IFormData {
+export interface IFormData {
   email: string;
   password: string;
 }
@@ -10,4 +11,10 @@ export interface IMainPageUIProps {
   handleSubmit: any;
   formState: FormState<IFormData>;
   onClickSubmit: (data: IFormData) => void;
+  onClickNonMember: () => void;
+  onClickJoin: () => void;
+}
+
+export interface ISubmitButtonProps {
+  isActive: boolean;
 }

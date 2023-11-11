@@ -12,6 +12,8 @@ import type {
   IUpdateBoardInput,
 } from "../../../../commons/types/generated/types";
 import type { Address } from "react-daum-postcode";
+import { result } from "lodash";
+import { FETCH_BOARD } from "../detail/BoardDetail.queries";
 
 export default function BoardWrite(props: IBoardWriteProps): JSX.Element {
   const router = useRouter();
@@ -28,7 +30,6 @@ export default function BoardWrite(props: IBoardWriteProps): JSX.Element {
   const [passwordError, setPasswordError] = useState("");
   const [titleError, setTitleError] = useState("");
   const [contentsError, setContentsError] = useState("");
-  const [zipCodeError, setZipCodeError] = useState("");
 
   const [isOpen, setIsOpen] = useState(false);
   const [zipcode, setZipcode] = useState("");
@@ -100,18 +101,13 @@ export default function BoardWrite(props: IBoardWriteProps): JSX.Element {
     }
   };
 
-  const onChangeContents = (event: ChangeEvent<HTMLTextAreaElement>): void => {
-    setContents(event.target.value);
-    if (event.target.value !== "") {
+  const onChangeContents = (value: string): void => {
+    setContents(value);
+    if (value !== "") {
       setContentsError("");
     }
 
-    if (
-      writer !== "" &&
-      password !== "" &&
-      title !== "" &&
-      event.target.value !== ""
-    ) {
+    if (writer !== "" && password !== "" && title !== "" && value !== "") {
       setIsActive(true);
     } else {
       setIsActive(false);
@@ -120,9 +116,33 @@ export default function BoardWrite(props: IBoardWriteProps): JSX.Element {
 
   const onChangeAddress = (event: ChangeEvent<HTMLInputElement>): void => {
     setZipcode(event.target.value);
-    if (event.target.value !== "") {
-      setZipCodeError("");
-    }
+  };
+
+  const onClickSearchAddress = (): void => {
+    setIsOpen((prev) => !prev);
+  };
+
+  const onCompleteSearchAddress = (data: Address): void => {
+    setZipcode(data.zonecode);
+    setAddress(data.address);
+    setIsOpen((prev) => !prev);
+  };
+
+  const onChangeAddressDetail = (
+    event: ChangeEvent<HTMLInputElement>,
+  ): void => {
+    setAddressDetail(event.target.value);
+  };
+
+  const onChangeYoutubeUrl = (event: ChangeEvent<HTMLInputElement>): void => {
+    setYoutubeUrl(event.target.value);
+  };
+
+  const onChangeImage = (image1: string, index: number): void => {
+    const newImage = [...image];
+    newImage[index] = image1;
+    setImage(newImage);
+    console.log(image);
   };
 
   const onClickUpload = async (): Promise<void> => {
@@ -137,9 +157,6 @@ export default function BoardWrite(props: IBoardWriteProps): JSX.Element {
     }
     if (contents === "") {
       setContentsError("내용을 입력해주세요.");
-    }
-    if (zipcode === "") {
-      setZipCodeError("주소를 입력해주세요.");
     }
 
     if (writer !== "" && password !== "" && title !== "" && contents !== "") {
@@ -171,7 +188,7 @@ export default function BoardWrite(props: IBoardWriteProps): JSX.Element {
   };
 
   const onClickEdit = async (): Promise<void> => {
-    if (title !== "" && contents !== "") {
+    if (title === "" && contents === "") {
       alert("수정한 내용이 없습니다.");
       return;
     }
@@ -205,41 +222,20 @@ export default function BoardWrite(props: IBoardWriteProps): JSX.Element {
           updateBoardInput,
         },
       });
+      console.log(result);
       void router.push(`/boards/${String(result.data?.updateBoard._id)}`);
     } catch (error) {
       if (error instanceof Error) alert(error.message);
     }
+    console.log(updateBoardInput);
   };
 
-  const onClickSearchAddress = (): void => {
-    setIsOpen((prev) => !prev);
-  };
-
-  const onCompleteSearchAddress = (data: Address): void => {
-    setZipcode(data.zonecode);
-    setAddress(data.address);
-    setIsOpen((prev) => !prev);
-  };
-
-  const onChangeAddressDetail = (
-    event: ChangeEvent<HTMLInputElement>,
-  ): void => {
-    setAddressDetail(event.target.value);
-  };
-
-  const onChangeYoutubeUrl = (event: ChangeEvent<HTMLInputElement>): void => {
-    setYoutubeUrl(event.target.value);
-  };
-
-  const onChangeImage = (image1: string, index: number): void => {
-    const newImage = [...image];
-    newImage[index] = image1;
-    setImage(newImage);
-    console.log(image);
-  };
+  // const a = () => {
+  // };
 
   return (
     <BoardWriteUI
+      // a={a}
       onChangeWriter={onChangeWriter}
       onChangePassword={onChangePassword}
       onChangeTitle={onChangeTitle}
@@ -249,7 +245,6 @@ export default function BoardWrite(props: IBoardWriteProps): JSX.Element {
       passwordError={passwordError}
       titleError={titleError}
       contentsError={contentsError}
-      zipCodeError={zipCodeError}
       isActive={isActive}
       data={props.data}
       isEdit={props.isEdit}

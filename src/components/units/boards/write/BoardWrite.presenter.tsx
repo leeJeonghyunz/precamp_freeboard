@@ -1,3 +1,5 @@
+import { ReactQuill } from "../../../commons/react-quill";
+import "react-quill/dist/quill.snow.css";
 import Upoload01 from "../../../commons/upload01/Upload01.container";
 import * as S from "./BoardWrite.styles";
 import type { IBoardWriteUIProps } from "./BoardWrite.type";
@@ -50,10 +52,10 @@ export default function BoardWriteUI(props: IBoardWriteUIProps): JSX.Element {
           </S.InputDiv>
           <S.Content>
             <p>내용</p>
-            <S.ContentInput
+            <ReactQuill
               onChange={props.onChangeContents}
-              placeholder="내용을 입력해주세요."
-              defaultValue={props.data?.fetchBoard.contents}
+              style={{ height: "400px" }}
+              defaultValue={props.data?.fetchBoard.contents ?? ""}
             />
             <S.Error>{props.contentsError}</S.Error>
           </S.Content>
@@ -72,7 +74,6 @@ export default function BoardWriteUI(props: IBoardWriteUIProps): JSX.Element {
                 우편번호 검색
               </S.SearchBtn>
             </S.PostDiv2>
-            <S.Error>{props.zipCodeError}</S.Error>
             <S.PostInput
               readOnly
               value={
@@ -107,14 +108,6 @@ export default function BoardWriteUI(props: IBoardWriteUIProps): JSX.Element {
                   onChangeImage={props.onChangeImage}
                 />
               ))}
-              <S.ImageUploadInput
-                type="file"
-                onChange={props.onChangeImageFile}
-                ref={props.fileRef}
-              />
-              {/* <S.ImagePreview
-                src={`https://storage.googleapis.com/${props.image}`}
-              /> */}
             </S.PicDiv2>
           </S.PicDiv>
           <S.CheckBox>
@@ -137,6 +130,7 @@ export default function BoardWriteUI(props: IBoardWriteUIProps): JSX.Element {
         >
           {props.isEdit ? "수정" : "등록"}하기
         </S.Save>
+        {/* <button onClick={props.a}>zxczxzxc</button> */}
       </S.Body>
     </>
   );

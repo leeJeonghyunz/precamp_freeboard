@@ -6,7 +6,7 @@ import type {
 } from "../../../commons/types/generated/types";
 
 export interface ISearchBarUIProps {
-  onChangeSearch: (event: ChangeEvent<HTMLInputElement>) => void;
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export interface ISearchBarProps {

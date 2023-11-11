@@ -16,7 +16,6 @@ interface IItemCardProps {
 
 export default function ItemCard02Basket(props: IItemCardProps): JSX.Element {
   const router = useRouter();
-  const [watchedItems, setWatchedItems] = useRecoilState(watchedItemsState);
 
   const onClickItem = (item: IBoard) => () => {
     const items: IBoard[] = JSON.parse(localStorage.getItem("items") ?? "[]");
@@ -25,10 +24,8 @@ export default function ItemCard02Basket(props: IItemCardProps): JSX.Element {
       void router.push(`/markets/product/${props.id}`);
       return;
     }
-    console.log(watchedItems);
     items.push(item);
     localStorage.setItem("items", JSON.stringify(items));
-    setWatchedItems(JSON.stringify(items));
     void router.push(`/markets/product/${props.id}`);
   };
 

@@ -35,6 +35,7 @@ export default function BoardList(): JSX.Element {
     console.log(keyword);
   };
 
+  void refetch();
   return (
     <BoardListUI
       keyword={keyword}

@@ -7,7 +7,7 @@ export default function SearchBarUI(props: ISearchBarUIProps): JSX.Element {
       <S.SearchBar
         placeholder="제목검색"
         type="text"
-        onChange={props.onChangeSearch}
+        onChange={props.onChange}
       />
     </>
   );

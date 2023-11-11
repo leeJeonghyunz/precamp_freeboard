@@ -1,19 +1,48 @@
 import styled from "@emotion/styled";
+import { ISubmitButtonProps } from "./Main.types";
 
 export const Body = styled.div`
   width: 100%;
-  height: 500px;
-  background-color: pink;
+  height: 850px;
+  background-image: url("images/1600w-JLofAI27pCg.webp");
+  background-size: contain;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const Wrapper = styled.div`
+  background-color: rgba(239, 239, 240, 0.5);
+  width: 400px;
+  height: 200px;
   display: flex;
   align-items: center;
   justify-content: center;
 `;
 
-export const Wrapper = styled.div`
-  width: 200px;
-  height: 200px;
-  background-color: grey;
+export const Form = styled.div`
+  opacity: 1;
+  height: 70px;
+  width: 300px;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  flex-direction: column;
+  margin-bottom: 20px;
+`;
+
+export const FormInner = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+`;
+
+export const ErrMsg = styled.div`
+  color: red;
+  font-size: 10px;
+`;
+
+export const BtnWrapper = styled.div`
+  display: flex;
+  justify-content: space-around;
+  width: 300px;
 `;

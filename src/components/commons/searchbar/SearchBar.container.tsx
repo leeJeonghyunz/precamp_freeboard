@@ -10,9 +10,8 @@ export default function SearchBar(props: ISearchBarProps): JSX.Element {
   }, 500);
 
   const onChangeSearch = (event: ChangeEvent<HTMLInputElement>): void => {
-    // setSearch(event.currentTarget.value);
     getDebounce(event.currentTarget.value);
   };
 
-  return <SearchBarUI onChangeSearch={onChangeSearch} />;
+  return <SearchBarUI onChange={onChangeSearch} />;
 }

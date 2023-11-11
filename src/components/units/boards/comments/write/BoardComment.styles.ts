@@ -36,7 +36,7 @@ export const Password = styled.input`
 
 export const ContentWrapper = styled.div`
   margin-top: 20px;
-  width: 1400px;
+  width: 1200px;
   display: flex;
   flex-direction: column;
 `;

@@ -1,3 +1,4 @@
+import { ChangeEvent } from "react";
 import type { UseFormHandleSubmit, FormState } from "react-hook-form";
 
 export interface IFormData {

@@ -10,10 +10,7 @@ export interface ICommentListUIProps {
 
 export interface IBoardCommentListUIItemProps {
   el: IBoardComment;
+  data?: Pick<IQuery, "fetchBoardComments">;
   isDeleteModal: boolean;
-  isDelete: boolean;
-  onClickDeleteModal: (event: MouseEvent<HTMLImageElement>) => void;
-  onClickEdit: (event: MouseEvent<HTMLDivElement>) => void;
-  onClickDelete: (event: MouseEvent<HTMLDivElement>) => void;
   onChangeDeletePassword: (event: ChangeEvent<HTMLInputElement>) => void;
 }

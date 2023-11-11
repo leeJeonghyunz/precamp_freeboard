@@ -6,6 +6,7 @@ import {
   SendOutlined,
 } from "@ant-design/icons";
 import ReactPlayer from "react-player";
+import { Modal } from "antd";
 
 export const Body = styled.div`
   display: flex;
@@ -25,7 +26,7 @@ export const WrapperTop = styled.div`
   height: 100px;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: flex-end;
   padding-bottom: 30px;
   border-bottom: solid 1px #bdbdbd;
@@ -41,6 +42,7 @@ export const ProfilePhoto = styled.div`
 `;
 export const InfoBody = styled.div`
   margin-left: 10px;
+  margin-right: 10px;
 `;
 
 export const Icon = styled.div`
@@ -60,13 +62,28 @@ export const WrapperContents = styled.div`
   margin-top: 80px;
 `;
 
+export const TitleDiv = styled.div`
+  width: 70%;
+  background-color: rgba(239, 239, 240, 1);
+  border-radius: 10px;
+  padding: 5px;
+`;
+
 export const Title = styled.h1`
   font-size: 36px;
+  color: black;
+`;
+
+export const ImageBox = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-item: center;
 `;
 
 export const Image = styled.img`
-  max-width: 100%;
-  max-height: 480px;
+  max-width: 50%;
+  max-height: 400px;
 `;
 
 export const Contents = styled.p`

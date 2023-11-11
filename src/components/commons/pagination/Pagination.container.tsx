@@ -16,7 +16,6 @@ export default function Pagination(props: IPageinationProps): JSX.Element {
 
   const [startPage, setStartPage] = useState(1);
   const [activePage, setactivePage] = useState(1);
-
   const lastPage = Math.ceil(dataBoardsCount?.fetchBoardsCount ?? 10) / 10;
 
   const onClickPage = (event: MouseEvent<HTMLDivElement>): void => {

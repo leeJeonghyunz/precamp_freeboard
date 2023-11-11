@@ -8,25 +8,7 @@ import { IBoard } from "../../../commons/types/generated/types";
 import { useEffect } from "react";
 
 export default function WatchedItemPage(): JSX.Element {
-  const [watchedItems, setWatchedItems] = useRecoilState(watchedItemsState);
-
-  let parsedItems = [];
-
-  try {
-    // Try parsing the JSON string
-    parsedItems = JSON.parse(watchedItems);
-  } catch (error) {
-    console.error("Error parsing JSON:", error);
-  }
-
-  console.log(parsedItems);
-
-  // Extract the ids from each object
-  // const ids = parsedItems.map((item) => item._id);
-
-  // const { data } = useQueryFetchUsedItem({
-  //   useditemId: String(ids),
-  // });
+  const parsedItems: IBoard = JSON.parse(localStorage.getItem("items") ?? "[]");
 
   return (
     <>

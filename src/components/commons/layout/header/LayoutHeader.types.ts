@@ -4,6 +4,6 @@ export interface ILayoutHeaderProps {
   onClickLogo: () => void;
   onClickLogin: () => void;
   onClickJoin: () => void;
-  data: Pick<IQuery, "fetchUserLoggedIn">;
-  dataName: string;
+  userName: string;
+  onClcikLogout: () => void;
 }

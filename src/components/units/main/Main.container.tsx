@@ -1,9 +1,9 @@
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { schema } from "../../commons/validation/Main";
 import MainPageUI from "./Main.presenter";
+import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import { useRecoilState } from "recoil";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { schema } from "../../commons/validation/Main";
 import { accessTokenState, isLoginState } from "../../../commons/stores";
 import { useMutationLoginUser } from "../../commons/hooks/mutations/useMutaitonLoginUser";
 
@@ -13,9 +13,9 @@ interface IFormData {
 }
 
 export default function MainPage(): JSX.Element {
-  const [, setIsLogin] = useRecoilState(isLoginState);
   const [, setAccessToken] = useRecoilState(accessTokenState);
-  const [loginUserExample] = useMutationLoginUser();
+  const [, setIsLogin] = useRecoilState(isLoginState);
+  const [loginUser] = useMutationLoginUser();
   const router = useRouter();
 
   const { register, handleSubmit, formState } = useForm<IFormData>({
@@ -29,7 +29,7 @@ export default function MainPage(): JSX.Element {
   };
 
   const login = async (data: IFormData): Promise<void> => {
-    const result = await loginUserExample({
+    const result = await loginUser({
       variables: {
         email: data.email,
         password: data.password,
@@ -46,12 +46,23 @@ export default function MainPage(): JSX.Element {
     setIsLogin(true);
     void router.push("/boards/list");
   };
+
+  const onClickNonMember = () => {
+    void router.push("/boards/list");
+  };
+
+  const onClickJoin = () => {
+    void router.push("/join");
+  };
+
   return (
     <MainPageUI
       register={register}
       handleSubmit={handleSubmit}
       formState={formState}
       onClickSubmit={onClickSubmit}
+      onClickNonMember={onClickNonMember}
+      onClickJoin={onClickJoin}
     />
   );
 }

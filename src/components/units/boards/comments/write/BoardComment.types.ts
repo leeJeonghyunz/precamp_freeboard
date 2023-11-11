@@ -1,5 +1,8 @@
 import type { ChangeEvent, Dispatch, SetStateAction, MouseEvent } from "react";
-import { IBoardComment } from "../../../../../commons/types/generated/types";
+import {
+  IBoardComment,
+  IQuery,
+} from "../../../../../commons/types/generated/types";
 
 export interface ICommentWriteUIProps {
   onClickEdit: (event: ChangeEvent<HTMLInputElement>) => void;
@@ -9,12 +12,14 @@ export interface ICommentWriteUIProps {
   onClickSubmit: () => void;
   setStar: Dispatch<SetStateAction<number>>;
   isEdit: boolean;
+  data?: Pick<IQuery, "fetchBoardComments">;
   writer: string;
   el?: IBoardComment;
 }
 
 export interface ICommentWriteProps {
   el?: IBoardComment;
-  setIsEdit: boolean;
+  setIsEdit: Dispatch<SetStateAction<boolean>>;
+  data?: Pick<IQuery, "fetchBoardComments">;
   isEdit: boolean;
 }

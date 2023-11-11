@@ -2,7 +2,8 @@ import * as S from "./BoardCommentList.style";
 import { getDate } from "../../../../commons/libraries/utils";
 import type { IBoardCommentListUIItemProps } from "./BoardCommentList.types";
 import { useRouter } from "next/router";
-import { type MouseEvent, useState, ChangeEvent } from "react";
+import type { MouseEvent, ChangeEvent } from "react";
+import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import type {
   IMutation,
@@ -48,6 +49,7 @@ export default function CommentListUIItem(
 
   const onClickEdit = (event: MouseEvent<HTMLButtonElement>): void => {
     setIsEdit(true);
+    // console.log(isEdit);
   };
 
   const onClickDeleteModal = (event: MouseEvent<HTMLImageElement>): void => {
@@ -102,7 +104,12 @@ export default function CommentListUIItem(
           </S.Body>
         </S.Wrapper>
       ) : (
-        <CommentWrite el={props.el} setIsEdit={setIsEdit} isEdit={isEdit} />
+        <CommentWrite
+          data={props.data}
+          el={props.el}
+          setIsEdit={setIsEdit}
+          isEdit={isEdit}
+        />
       )}
     </div>
   );

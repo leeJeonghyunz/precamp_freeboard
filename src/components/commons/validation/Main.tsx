@@ -1,7 +1,10 @@
 import * as yup from "yup";
 
 export const schema = yup.object({
-  email: yup.string().required("이메일을입력핫오").email("이메일 형식이 아님"),
+  email: yup
+    .string()
+    .required("이메일을입력하시오")
+    .email("이메일 형식이 아님"),
   password: yup
     .string()
     .required("비밀번호입력하시오")
@@ -10,13 +13,17 @@ export const schema = yup.object({
 });
 
 export const JoinSchema = yup.object({
-  email: yup.string().required("이메일을입력핫오").email("이메일 형식이 아님"),
+  email: yup
+    .string()
+    .required("이메일을입력하시오")
+    .email("이메일 형식이 아님"),
   password: yup
     .string()
     .required("비밀번호입력하시오")
     .min(4, "최소 4자리")
     .max(15, "최대 15"),
   name: yup.string().required("이름을 입력하시오"),
+  picture: yup.string(),
 });
 
 export const productRegisterSchema = yup.object({

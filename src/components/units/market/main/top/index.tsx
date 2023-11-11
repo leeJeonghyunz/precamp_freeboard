@@ -15,6 +15,7 @@ export default function LiveMarketPageTop(): JSX.Element {
       <S.Wrapper>
         {data?.fetchUseditemsOfTheBest.map((el, index) => (
           <ItemCard01
+            el={el}
             key={el?._id}
             id={el._id}
             name={el.name}

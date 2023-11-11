@@ -8,9 +8,7 @@ export const Body = styled.div`
   flex-direction: column;
   align-items: center;
   border: 1px solid black;
-  width: 1200px;
   padding: 100px 5px;
-  margin-left: 150px;
 `;
 
 export const BodyWrapped = styled.div``;
