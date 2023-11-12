@@ -6,7 +6,9 @@ export const Wrapper = styled.div`
   width: 100%;
 `;
 
-export const WrapperLeft = styled.div``;
+export const WrapperLeft = styled.div`
+  margin: 5px 0px;
+`;
 
 export const WrapperRight = styled.div`
   width: 200px;
@@ -25,9 +27,10 @@ export const basket = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 `;
 
 export const HeartOutlinedIcon = styled(HeartOutlined)`
   font-size: 25px;
-  color: white;
+  color: black;
 `;

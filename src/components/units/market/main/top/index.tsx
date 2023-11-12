@@ -6,24 +6,13 @@ import { useQueryFetchUsedItemsOfTheBest } from "../../../../commons/hooks/queri
 export default function LiveMarketPageTop(): JSX.Element {
   const { data } = useQueryFetchUsedItemsOfTheBest();
 
-  const aa = () => {
-    console.log(data);
-  };
   return (
     <>
       <Title01 title="베스트 상품" />
       <S.Wrapper>
         {data?.fetchUseditemsOfTheBest.map((el, index) => (
-          <ItemCard01
-            el={el}
-            key={el?._id}
-            id={el._id}
-            name={el.name}
-            contents={el.contents}
-            price={el?.price}
-          />
+          <ItemCard01 el={el} key={el?._id} id={el._id} name={el.name} contents={el.contents} price={el?.price} />
         ))}
-        <button onClick={aa}>cl</button>
       </S.Wrapper>
     </>
   );

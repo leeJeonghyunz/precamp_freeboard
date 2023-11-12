@@ -16,7 +16,6 @@ export default function CommentWriteUI(
               placeholder="작성자"
               readOnly={Boolean(props.el?.writer)}
               onChange={props.onChangeWriter}
-              defaultValue={props.isEdit ? props.el?.writer : ""}
               value={props.writer}
             />
             <S.Password

@@ -6,8 +6,9 @@ export default function HmmUI(props): JSX.Element {
       <div>
         <S.Dog src={props.dog} />
       </div>
-      {/* <button onClick={onClickSync}>Rest 요청하기 (동기)</button> */}
-      <button onClick={props.onClickReload}>다시뽑기!</button>
+      <S.ButtonDiv>
+        <S.ResetBtn onClick={props.onClickReload}>다시뽑기!</S.ResetBtn>
+      </S.ButtonDiv>
     </S.Wrapper>
   );
 }

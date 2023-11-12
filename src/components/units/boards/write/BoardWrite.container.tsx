@@ -40,15 +40,9 @@ export default function BoardWrite(props: IBoardWriteProps): JSX.Element {
   const [addressDetail, setAddressDetail] = useState("");
   const [youtubeUrl, setYoutubeUrl] = useState("");
 
-  const [createBoard] = useMutation<
-    Pick<IMutation, "createBoard">,
-    IMutationCreateBoardArgs
-  >(CREATE_BOARD);
+  const [createBoard] = useMutation<Pick<IMutation, "createBoard">, IMutationCreateBoardArgs>(CREATE_BOARD);
 
-  const [updateBoard] = useMutation<
-    Pick<IMutation, "updateBoard">,
-    IMutationUpdateBoardArgs
-  >(UPDATE_BOARD);
+  const [updateBoard] = useMutation<Pick<IMutation, "updateBoard">, IMutationUpdateBoardArgs>(UPDATE_BOARD);
 
   const onChangeWriter = (event: ChangeEvent<HTMLInputElement>): void => {
     setWriter(event.target.value);
@@ -56,12 +50,7 @@ export default function BoardWrite(props: IBoardWriteProps): JSX.Element {
       setWriterError("");
     }
 
-    if (
-      event.target.value !== "" &&
-      password !== "" &&
-      title !== "" &&
-      contents !== ""
-    ) {
+    if (event.target.value !== "" && password !== "" && title !== "" && contents !== "") {
       setIsActive(true);
     } else {
       setIsActive(false);
@@ -74,12 +63,7 @@ export default function BoardWrite(props: IBoardWriteProps): JSX.Element {
       setPasswordError("");
     }
 
-    if (
-      writer !== "" &&
-      event.target.value !== "" &&
-      title !== "" &&
-      contents !== ""
-    ) {
+    if (writer !== "" && event.target.value !== "" && title !== "" && contents !== "") {
       setIsActive(true);
     } else {
       setIsActive(false);
@@ -92,12 +76,7 @@ export default function BoardWrite(props: IBoardWriteProps): JSX.Element {
       setTitleError("");
     }
 
-    if (
-      writer !== "" &&
-      password !== "" &&
-      event.target.value !== "" &&
-      contents !== ""
-    ) {
+    if (writer !== "" && password !== "" && event.target.value !== "" && contents !== "") {
       setIsActive(true);
     } else {
       setIsActive(false);
@@ -131,9 +110,7 @@ export default function BoardWrite(props: IBoardWriteProps): JSX.Element {
     setIsOpen((prev) => !prev);
   };
 
-  const onChangeAddressDetail = (
-    event: ChangeEvent<HTMLInputElement>,
-  ): void => {
+  const onChangeAddressDetail = (event: ChangeEvent<HTMLInputElement>): void => {
     setAddressDetail(event.target.value);
   };
 
@@ -209,8 +186,7 @@ export default function BoardWrite(props: IBoardWriteProps): JSX.Element {
       updateBoardInput.boardAddress = {};
       if (zipcode !== "") updateBoardInput.boardAddress.zipcode = zipcode;
       if (address !== "") updateBoardInput.boardAddress.address = address;
-      if (addressDetail !== "")
-        updateBoardInput.boardAddress.addressDetail = addressDetail;
+      if (addressDetail !== "") updateBoardInput.boardAddress.addressDetail = addressDetail;
     }
 
     try {

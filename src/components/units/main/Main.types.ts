@@ -13,6 +13,7 @@ export interface IMainPageUIProps {
   onClickSubmit: (data: IFormData) => void;
   onClickNonMember: () => void;
   onClickJoin: () => void;
+  isMobile: boolean;
 }
 
 export interface ISubmitButtonProps {

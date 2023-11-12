@@ -3,26 +3,23 @@ import LayoutHeaderUI from "./LayoutHeader.presenter";
 import { FETCH_USER_LOGGED_IN } from "../../../units/main/Main.queries";
 import type { IQuery } from "../../../../commons/types/generated/types";
 import { useQuery } from "@apollo/client";
-import { useRecoilState, useRecoilValueLoadable } from "recoil";
-import {
-  accessTokenState,
-  accessTokenUserName,
-  isLoginState,
-  restoreAccessTokenLoadable,
-} from "../../../../commons/stores";
+import { useRecoilState } from "recoil";
+import { accessTokenState, accessTokenUserName, isLoginState } from "../../../../commons/stores";
 import { useMutationLogoutUser } from "../../hooks/mutations/useMutationLogoutUser";
-import { useEffect } from "react";
+import { useMediaQuery } from "react-responsive";
 
 export default function LayoutHeader(): JSX.Element {
+  const isMobile = useMediaQuery({
+    query: "(max-width:800px)",
+  });
+
   const router = useRouter();
   const [logoutUser] = useMutationLogoutUser();
   const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const [userName, setUserName] = useRecoilState(accessTokenUserName);
-  const aaa = useRecoilValueLoadable(restoreAccessTokenLoadable);
 
-  const { data } =
-    useQuery<Pick<IQuery, "fetchUserLoggedIn">>(FETCH_USER_LOGGED_IN);
+  const { data } = useQuery<Pick<IQuery, "fetchUserLoggedIn">>(FETCH_USER_LOGGED_IN);
   if (data !== undefined) {
     const a = data.fetchUserLoggedIn.name;
     setUserName(a);
@@ -70,6 +67,7 @@ export default function LayoutHeader(): JSX.Element {
       onClickLogin={onClickLogin}
       onClickJoin={onClickJoin}
       onClcikLogout={onClcikLogout}
+      isMobile={isMobile}
     />
   );
 }

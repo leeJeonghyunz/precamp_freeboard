@@ -4,11 +4,8 @@ import { useRouter } from "next/router";
 import { useRecoilState } from "recoil";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schema } from "../../commons/validation/Main";
-import {
-  accessTokenState,
-  accessTokenUserName,
-  isLoginState,
-} from "../../../commons/stores";
+import { useMediaQuery } from "react-responsive";
+import { accessTokenState, isLoginState } from "../../../commons/stores";
 import { useMutationLoginUser } from "../../commons/hooks/mutations/useMutaitonLoginUser";
 import { FETCH_USER_LOGGED_IN } from "./Main.queries";
 
@@ -22,6 +19,10 @@ export default function MainPage(): JSX.Element {
   const [, setIsLogin] = useRecoilState(isLoginState);
   const [loginUser] = useMutationLoginUser();
   const router = useRouter();
+
+  const isMobile = useMediaQuery({
+    query: "(max-width:800px)",
+  });
 
   const { register, handleSubmit, formState } = useForm<IFormData>({
     resolver: yupResolver(schema),
@@ -67,6 +68,7 @@ export default function MainPage(): JSX.Element {
 
   return (
     <MainPageUI
+      isMobile={isMobile}
       register={register}
       handleSubmit={handleSubmit}
       formState={formState}

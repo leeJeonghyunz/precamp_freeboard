@@ -16,6 +16,7 @@ export const Picture = styled.div`
 export const LoacationBox = styled.div`
   display: flex;
   margin-top: 20px;
+  margin-bottom: 20px;
 `;
 
 export const Map = styled.div`
@@ -58,8 +59,17 @@ export const BoldFont = styled.span`
 
 export const Contents = styled.div`
   margin-top: 10px;
+  margin-bottom: 50px;
 `;
 
 export const ModalAddress = styled(Modal)``;
 
 export const ModalAddressInput = styled(DaumPostcodeEmbed)``;
+
+export const SearchAddress = styled.button`
+  background-color: white;
+  border: 1px solid blue;
+  color: blue;
+  width: 100px;
+  cursor: pointer;
+`;

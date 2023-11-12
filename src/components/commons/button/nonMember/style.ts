@@ -1,7 +1,11 @@
 import styled from "@emotion/styled";
 
+interface IProps {
+  isMobile: boolean;
+}
+
 export const BtnB = styled.button`
-  width: 90px;
+  width: ${(props: IProps) => (props.isMobile ? "200px" : "80px")};
   background-color: blue;
   color: white;
 `;

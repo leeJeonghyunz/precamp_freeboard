@@ -1,5 +1,8 @@
 import styled from "@emotion/styled";
-import { ISubmitButtonProps } from "./Main.types";
+
+interface IProps {
+  isMobile: boolean;
+}
 
 export const Body = styled.div`
   width: 100%;
@@ -43,6 +46,8 @@ export const ErrMsg = styled.div`
 
 export const BtnWrapper = styled.div`
   display: flex;
+  flex-direction: ${(props: IProps) => (props.isMobile ? "column" : "row")};
+  align-items: ${(props: IProps) => (props.isMobile ? "center" : "")};
   justify-content: space-around;
   width: 300px;
 `;

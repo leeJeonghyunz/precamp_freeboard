@@ -13,7 +13,7 @@ export default function LayoutHeaderUI(props: ILayoutHeaderProps): JSX.Element {
     <S.Wrapper>
       <S.InnerWrapper>
         <S.Logo onClick={props.onClickLogo}>Logo</S.Logo>
-        <S.LoginWrapper>
+        <S.LoginWrapper isMobile={props.isMobile}>
           {isLogin ? (
             <>
               <S.BtnWrapper>
@@ -27,9 +27,6 @@ export default function LayoutHeaderUI(props: ILayoutHeaderProps): JSX.Element {
               <JoinBtn onClick={props.onClickJoin} />
             </>
           )}
-          {/* {props.userName}님 환영합니다!
-          <S.Btn onClick={props.onClickLogin}>로그인</S.Btn>
-          <S.Btn onClick={props.onClickJoin}>회원가입</S.Btn> */}
         </S.LoginWrapper>
       </S.InnerWrapper>
     </S.Wrapper>

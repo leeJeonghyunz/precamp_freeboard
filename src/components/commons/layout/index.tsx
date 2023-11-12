@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import LayoutBanner from "./banner/LayoutBanner.container";
 import LayoutHeader from "./header/LayoutHeader.conatainor";
 import LayoutNavigation from "./navigation/LayoutNavigation.container";
+import { useMediaQuery } from "react-responsive";
 
 interface ILayoutProps {
   children: JSX.Element;
@@ -13,6 +14,10 @@ export default function Layout(props: ILayoutProps): JSX.Element {
 
   const isHiddenBody = HIDDEN_BODY.includes(router.asPath);
 
+  const isMobile = useMediaQuery({
+    query: "(max-width:800px)",
+  });
+
   return (
     <>
       {!isHiddenBody ? (
@@ -21,7 +26,7 @@ export default function Layout(props: ILayoutProps): JSX.Element {
           <LayoutBanner />
           <LayoutNavigation />
           <div style={{ display: "flex", justifyContent: "center" }}>
-            <div style={{ width: "70%" }}>{props.children}</div>
+            <div style={{ width: isMobile ? "90%" : "70%" }}>{props.children}</div>
           </div>
         </>
       ) : (

@@ -1,93 +1,99 @@
 import * as S from "./styles";
+import InputLong from "../../../../../commons/Input/long";
+import Button01 from "../../../../../commons/button/01";
+import InputLongNormal from "../../../../../commons/Input/longNormal";
+import ImageUpload01 from "../../../../../commons/imageUpload/imageUpload";
+import KakaoMapPage from "../../../../../commons/maps/02-address";
 import { useForm } from "react-hook-form";
 import { wrapFormAsync } from "../../../../../../commons/libraries/asyncFunc";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { productRegisterSchema } from "../../../../../commons/validation/Main";
-import InputLong from "../../../../../commons/Input/long";
-import Button01 from "../../../../../commons/button/01";
-import InputLongNormal from "../../../../../commons/Input/longNormal";
 import { useRouter } from "next/router";
-import ImageUpload01 from "../../../../../commons/imageUpload/imageUpload";
 import { useMutationCreateUsedItem } from "../../../../../commons/hooks/mutations/useMutationCreateUsedItem";
 import { useState } from "react";
-import { Address } from "react-daum-postcode";
-import KakaoMapPage from "../../../../../commons/maps/02-address";
 import { ReactQuill } from "../../../../../commons/react-quill";
-import "react-quill/dist/quill.snow.css";
 import { useMutationUploadFile } from "../../../../../commons/hooks/mutations/useMutationUploadFile";
+import { USED_ITEMS } from "../../../main/bottom/LiveMarketPageBottom.queries";
+import { useMutationUpdateUsedItem } from "../../../../../commons/hooks/mutations/useMutationUpdateUsedItem";
+import type { MouseEvent } from "react";
+import type { Address } from "react-daum-postcode";
+import type { IUpdateUseditemInput } from "../../../../../../commons/types/generated/types";
+import "react-quill/dist/quill.snow.css";
+import { useQueryFetchUsedItem } from "../../../../../commons/hooks/queries/useQueryFetchUsedItem";
 
 export interface IFormData {
   name: string;
   remarks: string;
   contents: string;
   price: number;
-  images: string[];
 }
 
-export default function ProductRegisterBody(): JSX.Element {
-  const { register, handleSubmit, formState, setValue, trigger } =
-    useForm<IFormData>({
-      resolver: yupResolver(productRegisterSchema),
-      mode: "onChange",
-    });
+interface IProductRegisterBodyProps {
+  isEdit: boolean;
+}
+
+export default function ProductRegisterBody(props: IProductRegisterBodyProps): JSX.Element {
+  const { register, handleSubmit, formState, setValue, trigger } = useForm<IFormData>({
+    resolver: yupResolver(productRegisterSchema),
+    mode: "onChange",
+  });
 
   const router = useRouter();
   const [createUseditem] = useMutationCreateUsedItem();
+  const [updateUseditem] = useMutationUpdateUsedItem();
+  const [uploadFile] = useMutationUploadFile();
   const [isOpen, setIsOpen] = useState(false);
   const [zipcode, setZipcode] = useState("");
   const [address, setAddress] = useState("");
-  const [addressDetail, setAddressDetail] = useState("");
   const [files, setFiles] = useState<File[]>([]);
-
-  const [uploadFile] = useMutationUploadFile();
-
-  const onChangeAddress = (event: ChangeEvent<HTMLInputElement>): void => {
-    setZipcode(event.target.value);
-    if (event.target.value !== "") {
-      setZipCodeError("");
-    }
-  };
+  const { data: usedItem } = useQueryFetchUsedItem({
+    useditemId: String(router.query.number),
+  });
 
   const onClickSubmit = async (data: IFormData): Promise<void> => {
-    console.log(data);
-
-    const results = await Promise.all(
-      files.map(async (el) => await uploadFile({ variables: { file: el } })),
-    );
-    console.log(results); // r[resultFile0, resultFile1, resultFile2]
-    const resultUrls = results.map((el) => el.data?.uploadFile.url);
-
-    const result = await createUseditem({
-      variables: {
-        createUseditemInput: {
-          name: data.name,
-          remarks: data.remarks,
-          contents: data.contents,
-          price: data.price,
-          images: resultUrls,
-          useditemAddress: {
-            zipcode,
-            address,
+    try {
+      const results = await Promise.all(files.map(async (el) => await uploadFile({ variables: { file: el } })));
+      console.log("results:", results);
+      const resultUrls = results.map((el) => el.data?.uploadFile.url);
+      console.log("resultUrls:", resultUrls);
+      const result = await createUseditem({
+        variables: {
+          createUseditemInput: {
+            name: data.name,
+            remarks: data.remarks,
+            contents: data.contents,
+            price: data.price,
+            images: resultUrls,
+            useditemAddress: {
+              zipcode,
+              address,
+            },
           },
         },
-      },
-    });
-    const { Modal } = await import("antd"); // code-spliting
-    Modal.success({ content: "완료!!!~~" });
-    console.log(result);
-    void router.push(
-      `/markets/product/${String(result.data?.createUseditem._id)}`,
-    );
+        refetchQueries: [
+          {
+            query: USED_ITEMS,
+          },
+        ],
+      });
+      const { Modal } = await import("antd"); // code-spliting
+      Modal.success({ content: "완료!!!~~" });
+      void router.push(`/markets/product/${String(result.data?.createUseditem._id)}`);
+    } catch (error) {
+      if (error instanceof Error) {
+        alert(error.message);
+      }
+    }
   };
 
   const onCompleteSearchAddress = (data: Address): void => {
     setZipcode(data.zonecode);
     setAddress(data.address);
     setIsOpen((prev) => !prev);
-    console.log(data);
   };
 
-  const onClickSearchAddress = (): void => {
+  const onClickSearchAddress = (event: MouseEvent<HTMLButtonElement>): void => {
+    event.stopPropagation();
     setIsOpen((prev) => !prev);
   };
 
@@ -100,89 +106,95 @@ export default function ProductRegisterBody(): JSX.Element {
     console.log(event.target.value);
   };
 
-  // const onClickEdit = (data: IFormData) => {
-  //   const updateUseditemInput: IUpdateUseditemInput = {};
-  //   if (data.name !== "") updateUseditemInput.name = data.name;
-  //   if (data.remarks !== "") updateUseditemInput.remarks = data.remarks;
-  //   if (data.contents !== "") updateUseditemInput.contents = data.contents;
-  //   if (data.price !== null) updateUseditemInput.price = data.price;
-  //   if (data.images.length > 0) updateUseditemInput.images = data.images;
-  //   const result = await updateUseditem({
-  //     variables: {
-  //       updateUseditemInput,
-  //       useditemId: String(router.query.number),
-  //     },
-  //   });
-  //   console.log(result);
-  // };
+  const onClickEdit = async (data: IFormData): Promise<void> => {
+    const results = await Promise.all(files.map(async (el) => await uploadFile({ variables: { file: el } })));
+    console.log("results:", results);
+    const resultUrls = results.map((el) => el.data?.uploadFile.url);
+    console.log("resultUrls:", resultUrls);
 
-  const aa = () => {
-    console.log(zipcode);
-    console.log(address);
+    const updateUseditemInput: IUpdateUseditemInput = {};
+    if (data.name !== "") updateUseditemInput.name = data.name;
+    if (data.remarks !== "") updateUseditemInput.remarks = data.remarks;
+    if (data.contents !== "") updateUseditemInput.contents = data.contents;
+    if (data.price !== null) updateUseditemInput.price = data.price;
+    if (resultUrls.length > 0) updateUseditemInput.images = resultUrls;
+    const result = await updateUseditem({
+      variables: {
+        updateUseditemInput,
+        useditemId: String(router.query.number),
+      },
+      refetchQueries: [
+        {
+          query: USED_ITEMS,
+        },
+      ],
+    });
+    void router.push(`/markets/product/${String(result.data?.updateUseditem._id)}`);
+    console.log(result);
   };
 
   return (
-    <form onSubmit={wrapFormAsync(handleSubmit(onClickSubmit))}>
-      <InputLong register={register("name")} tag="상품명" />
-      <div>{formState.errors.name?.message}</div>
-      <InputLong register={register("remarks")} tag="한줄요약" />
-      <div>{formState.errors.remarks?.message}</div>
-      <S.Contents>
-        <span>내용</span>
-        <ReactQuill onChange={onChangeContents} />
-      </S.Contents>
-      <InputLong register={register("price")} tag="판매가격" />
-      <div>{formState.errors.price?.message}</div>
-      <InputLongNormal tag="태그입력" />
-      <div>
-        <p>사진첨부</p>
-        <ImageUpload01
-          setValue={setValue}
-          register={register("images")}
-          onChange={onChangeImages}
-          files={files}
-          setFiles={setFiles}
-        />
-      </div>
-      <S.LoacationBox>
+    <>
+      <form onSubmit={wrapFormAsync(handleSubmit(props.isEdit ? onClickEdit : onClickSubmit))}>
+        <InputLong register={register("name")} tag="상품명" defaultValue={usedItem?.fetchUseditem.name} />
+        <div>{formState.errors.name?.message}</div>
+        <InputLong register={register("remarks")} tag="한줄요약" defaultValue={usedItem?.fetchUseditem.remarks} />
+        <div>{formState.errors.remarks?.message}</div>
+        <S.Contents>
+          <span>내용</span>
+          <ReactQuill
+            style={{ height: "300px" }}
+            onChange={onChangeContents}
+            defaultValue={usedItem?.fetchUseditem.contents}
+          />
+        </S.Contents>
+        <InputLong register={register("price")} tag="판매가격" defaultValue={usedItem?.fetchUseditem.price} />
+        <div>{formState.errors.price?.message}</div>
+        <InputLongNormal tag="태그입력" />
         <div>
-          {isOpen && (
-            <S.ModalAddress
-              open={isOpen}
-              onOk={onClickSearchAddress}
-              onCancel={onClickSearchAddress}
-            >
-              <S.ModalAddressInput onComplete={onCompleteSearchAddress} />
-            </S.ModalAddress>
-          )}
-          <S.BoldFont>거래 위치</S.BoldFont>
-          <S.Map>
-            <KakaoMapPage address={address} width={"380px"} height={"250px"} />
-          </S.Map>
-          <div onClick={onClickSearchAddress}>검색</div>
+          <p>사진첨부</p>
+          <ImageUpload01
+            setValue={setValue}
+            register={register("images")}
+            onChange={onChangeImages}
+            files={files}
+            setFiles={setFiles}
+          />
         </div>
-        <S.GPSInfo>
-          <S.BoldFont>gps</S.BoldFont>
-          <S.LongLati>
-            <div style={{ display: "flex" }}>
-              <S.LongLatiInput placeholder="위도" />
-              <S.LongLatiInput placeholder="경도" />
-            </div>
-          </S.LongLati>
-          <S.AddressBox>
-            <S.BoldFont>주소</S.BoldFont>
-            <S.MailAdressInput value={zipcode} />
-            <S.MailAdressInput value={address} />
-          </S.AddressBox>
-        </S.GPSInfo>
-      </S.LoacationBox>
-
-      <button onClick={aa}> 테스트</button>
-      <Button01
-        title="등록하기"
-        isActive={formState.isValid}
-        onClick={onClickSubmit}
-      />
-    </form>
+        <S.LoacationBox>
+          <div>
+            {isOpen && (
+              <S.ModalAddress open={isOpen} onOk={onClickSearchAddress} onCancel={onClickSearchAddress}>
+                <S.ModalAddressInput onComplete={onCompleteSearchAddress} />
+              </S.ModalAddress>
+            )}
+            <S.BoldFont>거래 위치</S.BoldFont>
+            <S.Map>
+              <KakaoMapPage address={address} width={"380px"} height={"250px"} />
+            </S.Map>
+            <S.SearchAddress onClick={onClickSearchAddress} type="button">
+              주소 검색
+            </S.SearchAddress>
+          </div>
+          <S.GPSInfo>
+            <S.BoldFont>gps</S.BoldFont>
+            <S.LongLati>
+              <div style={{ display: "flex" }}>
+                <S.LongLatiInput placeholder="위도" />
+                <S.LongLatiInput placeholder="경도" />
+              </div>
+            </S.LongLati>
+            <S.AddressBox>
+              <S.BoldFont>주소</S.BoldFont>
+              <S.MailAdressInput value={zipcode} />
+              <S.MailAdressInput value={address} />
+            </S.AddressBox>
+          </S.GPSInfo>
+        </S.LoacationBox>
+        <div>
+          <Button01 title={props.isEdit ? "수정하기" : "등록하기"} isActive={formState.isValid} />
+        </div>
+      </form>
+    </>
   );
 }

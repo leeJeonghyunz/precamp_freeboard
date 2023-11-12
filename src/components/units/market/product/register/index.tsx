@@ -12,7 +12,7 @@ export default function ProductRegister(): JSX.Element {
   return (
     <>
       <Title01 title={isEdit ? "수정하기" : "상품 등록하기"} />
-      <ProductRegisterBody />
+      <ProductRegisterBody isEdit={isEdit} />
     </>
   );
 }

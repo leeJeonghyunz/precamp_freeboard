@@ -7,7 +7,7 @@ export const Wrapper = styled.div`
   margin-top: 30px;
 `;
 
-export const Title = styled.div`
+export const Title = styled.h2`
   height: 50px;
   width: 300px;
   background-color: beige;
@@ -16,7 +16,7 @@ export const Title = styled.div`
   text-align: center;
   line-height: 45px;
   position: absolute;
-  top: 625px;
+  top: 615px;
 `;
 
 export const List = styled.div`

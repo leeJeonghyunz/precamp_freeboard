@@ -1,10 +1,4 @@
-import {
-  useState,
-  type ChangeEvent,
-  useRef,
-  Dispatch,
-  SetStateAction,
-} from "react";
+import { useState, type ChangeEvent, useRef, Dispatch, SetStateAction } from "react";
 
 import * as S from "./styles";
 import type { UseFormRegisterReturn, UseFormSetValue } from "react-hook-form";
@@ -22,14 +16,12 @@ interface IInputProps {
 export default function ImageUpload01(props: IInputProps): JSX.Element {
   const [images, SetImages] = useState(["", "", ""]);
 
-  const fileRef = useRef<HTMLInputElement>(null);
-
   const onChangeImageFile =
     (index: number) =>
     async (event: ChangeEvent<HTMLInputElement>): Promise<void> => {
       const file = event.target.files?.[0];
       if (file === undefined) return;
-      console.log(file);
+      console.log("file:", file);
 
       const fileReader = new FileReader();
       fileReader.readAsDataURL(file);
@@ -37,26 +29,24 @@ export default function ImageUpload01(props: IInputProps): JSX.Element {
         console.log(event.target?.result); // 게시판에서 event.target.id를 쓰면 eslint가 잡았던 이유: event.target은 태그만을 가르키지 않음
         if (typeof event.target?.result === "string") {
           const tempUrls = [...images];
+          console.log("images:", images);
+          console.log("tempUrls:", tempUrls);
           tempUrls[index] = event.target?.result;
+          console.log("tempUrls:", tempUrls);
           SetImages(tempUrls);
+          console.log("images:", images);
 
           const tempFiles = [...props.files];
+          console.log("tempFiles:", tempFiles);
           tempFiles[index] = file;
+          console.log("file:", file);
+          console.log("tempFiles:", tempFiles);
           props.setFiles(tempFiles);
         }
       };
-
-      // const result = await uploadFile({ variables: { file } });
-      // console.log(result.data?.uploadFile.url);
-      // SetImages(result?.data?.uploadFile?.url ?? "");
-      // props.setValue("images", result.data?.uploadFile.url);
     };
 
-  console.log(images);
-
-  const onClickFile = (): void => {
-    fileRef.current?.click();
-  };
+  console.log("props.files:", props.files);
 
   return (
     <>
@@ -67,18 +57,7 @@ export default function ImageUpload01(props: IInputProps): JSX.Element {
         <input type="file" onChange={wrapAsync(onChangeImageFile(0))} />
         <input type="file" onChange={wrapAsync(onChangeImageFile(1))} />
         <input type="file" onChange={wrapAsync(onChangeImageFile(2))} />
-        {/* <S.ImageClick onClick={onClickFile}> +</S.ImageClick>
-        <S.ImageClick onClick={onClickFile}> +</S.ImageClick>
-        <S.ImageClick onClick={onClickFile}> +</S.ImageClick>
-        <S.HiddenInput onChange={onChangeImageFile} type="file" ref={fileRef} />
-        <S.HiddenInput onChange={onChangeImageFile} type="file" ref={fileRef} />
-        <S.HiddenInput onChange={onChangeImageFile} type="file" ref={fileRef} /> */}
-        <input
-          value={images}
-          {...props.register}
-          name="images"
-          style={{ display: "none" }}
-        />
+        <input value={images} {...props.register} name="images" style={{ display: "none" }} />
       </S.Wrapper>
     </>
   );

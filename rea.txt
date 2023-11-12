@@ -6,6 +6,5 @@
 
 visitedpage 네비게이션 적용
 
-input 초기화(validation)
 
 쿠키

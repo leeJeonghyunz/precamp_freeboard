@@ -1,5 +1,9 @@
 import styled from "@emotion/styled";
 
+interface IProps {
+  isMobile: boolean;
+}
+
 export const Wrapper = styled.div`
   height: 150px;
   width: 100%;
@@ -23,7 +27,7 @@ export const Logo = styled.div`
 `;
 
 export const LoginWrapper = styled.div`
-  width: 230px;
+  width: ${(props: IProps) => (props.isMobile ? "150px" : "230px")};
   display: flex;
   justify-content: space-between;
 `;

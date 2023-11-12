@@ -11,9 +11,7 @@ export default function MainPageUI(props: IMainPageUIProps): JSX.Element {
     <div>
       <S.Body>
         <S.Wrapper>
-          <form
-            onSubmit={wrapFormAsync(props.handleSubmit(props.onClickSubmit))}
-          >
+          <form onSubmit={wrapFormAsync(props.handleSubmit(props.onClickSubmit))}>
             <S.Form>
               <S.FormInner>
                 이메일:
@@ -22,17 +20,16 @@ export default function MainPageUI(props: IMainPageUIProps): JSX.Element {
               <S.ErrMsg>{props.formState.errors.email?.message}</S.ErrMsg>
               <S.FormInner>
                 페스워드:
-                <Input01
-                  register={props.register("password")}
-                  type="password"
-                />
+                <Input01 register={props.register("password")} type="password" />
               </S.FormInner>
               <S.ErrMsg>{props.formState.errors.password?.message}</S.ErrMsg>
             </S.Form>
-            <S.BtnWrapper>
-              <LoginBtn isActive={props.formState.isValid} />
-              <NonMemberBtn onClick={props.onClickNonMember} />
-              <JoinBtn onClick={props.onClickJoin}>회원가입</JoinBtn>
+            <S.BtnWrapper isMobile={props.isMobile}>
+              <LoginBtn isActive={props.formState.isValid} isMobile={props.isMobile} />
+              <NonMemberBtn onClick={props.onClickNonMember} isMobile={props.isMobile} />
+              <JoinBtn onClick={props.onClickJoin} isMobile={props.isMobile}>
+                회원가입
+              </JoinBtn>
             </S.BtnWrapper>
           </form>
         </S.Wrapper>

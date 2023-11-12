@@ -6,4 +6,5 @@ export interface ILayoutHeaderProps {
   onClickJoin: () => void;
   userName: string;
   onClcikLogout: () => void;
+  isMobile: booleanl;
 }

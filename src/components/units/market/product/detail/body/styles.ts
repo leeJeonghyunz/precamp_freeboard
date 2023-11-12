@@ -81,6 +81,8 @@ export const BuyBtn = styled.button`
   background-color: yellow;
 `;
 export const Btn = styled.button`
-  width: 100px;
-  height: 30px;
+  height: 50px;
+  width: 170px;
+  background-color: white;
+  cursor: pointer;
 `;

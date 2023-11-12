@@ -1,9 +1,9 @@
-import { useRouter } from "next/router";
-import { IBoard } from "../../../../commons/types/generated/types";
-import Image01 from "../../DetailImg";
-import { useMoveToPage } from "../../hooks/custom/useMoveToPage";
 import * as S from "./styles";
+import Image01 from "../../DetailImg";
 import Dompurify from "dompurify";
+import { useRouter } from "next/router";
+import { useMoveToPage } from "../../hooks/custom/useMoveToPage";
+import type { IBoard } from "../../../../commons/types/generated/types";
 
 interface IItemCardProps {
   name: string;
@@ -14,7 +14,6 @@ interface IItemCardProps {
 }
 
 export default function ItemCard01(props: IItemCardProps): JSX.Element {
-  const { oncLickMoveToPage } = useMoveToPage();
   const router = useRouter();
 
   const onClickItem = (item: IBoard) => () => {
@@ -34,7 +33,7 @@ export default function ItemCard01(props: IItemCardProps): JSX.Element {
       <S.ItemCard>
         <div onClick={onClickItem(props.el)}>
           <Image01 id={props.id} />
-          <div>{props.name}</div>
+          <S.Name>{props.name}</S.Name>
           <S.Contents
             dangerouslySetInnerHTML={{
               __html: Dompurify.sanitize(props.contents),

@@ -31,3 +31,19 @@ export const Row = styled.div`
   align-items: center;
   border-bottom: 1px solid grey;
 `;
+
+export const Name = styled.div`
+  width: 20%;
+`;
+
+export const Remarks = styled.div`
+  width: 40%;
+`;
+
+export const Price = styled.div`
+  width: 20%;
+`;
+
+export const CreateAt = styled.div`
+  width: 20%;
+`;
