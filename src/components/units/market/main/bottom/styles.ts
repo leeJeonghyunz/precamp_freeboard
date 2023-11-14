@@ -1,13 +1,18 @@
 import styled from "@emotion/styled";
 import { HeartOutlined } from "@ant-design/icons";
 
+interface IProps {
+  isMobile: boolean;
+}
+
 export const Wrapper = styled.div`
   display: flex;
-  width: 100%;
+  width: ${(props: IProps) => (props.isMobile ? "100%" : "110%")};
 `;
 
 export const WrapperLeft = styled.div`
   margin: 5px 0px;
+  width: 100%;
 `;
 
 export const WrapperRight = styled.div`

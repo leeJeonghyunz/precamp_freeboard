@@ -2,9 +2,10 @@
   background-image: none;
   opacity: 0.2;
   justify-content: space-between;
-  background-color: rgba(237, 231, 225, 0.68);
+  background-color: rgba(161, 162, 163, 0.746)
   position: absolute;
   cursor: pointer;
   display: flex;
   flex-direction:;
+  font-size:;
 }

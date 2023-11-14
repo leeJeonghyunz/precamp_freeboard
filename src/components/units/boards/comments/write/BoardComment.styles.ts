@@ -1,8 +1,12 @@
 import styled from "@emotion/styled";
 import { Rate } from "antd";
 
+interface IProps {
+  isMobile: boolean;
+}
+
 export const Wrapper = styled.div`
-  width: 1400px;
+  width: 100%;
   margin-top: 40px;
   padding: 0px 100ox;
   display: flex;
@@ -10,6 +14,8 @@ export const Wrapper = styled.div`
 `;
 
 export const TitleBox = styled.div`
+  display: flex;
+  justify-content: ${(props: IProps) => (props.isMobile ? "space-between" : "")};
   margin-bottom: 40px;
   font-size: 18px;
   font-weight: 700;
@@ -36,7 +42,7 @@ export const Password = styled.input`
 
 export const ContentWrapper = styled.div`
   margin-top: 20px;
-  width: 1200px;
+  width: 100%;
   display: flex;
   flex-direction: column;
 `;
@@ -49,7 +55,7 @@ export const SubmitWrapper = styled.div`
 `;
 
 export const Content = styled.textarea`
-  width: 99%;
+  width: 100%;
   height: 150px;
   padding: 10px;
 `;
@@ -62,4 +68,6 @@ export const SubBtn = styled.button`
   cursor: pointer;
 `;
 
-export const Star = styled(Rate)``;
+export const Star = styled(Rate)`
+  margin-left: ${(props: IProps) => (props.isMobile ? "" : "50px")};
+`;

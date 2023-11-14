@@ -1,8 +1,8 @@
 import * as S from "./styles";
-import Image01 from "../../DetailImg";
 import Dompurify from "dompurify";
-import { useRouter } from "next/router";
+import Image01 from "../../DetailImg";
 import type { IBoard } from "../../../../commons/types/generated/types";
+import { useRouter } from "next/router";
 
 interface IItemCardProps {
   name: string;
@@ -10,6 +10,7 @@ interface IItemCardProps {
   price: string;
   id: string;
   el: any;
+  isMobile: boolean;
 }
 
 export default function ItemCard02Basket(props: IItemCardProps): JSX.Element {
@@ -44,26 +45,41 @@ export default function ItemCard02Basket(props: IItemCardProps): JSX.Element {
 
   return (
     <>
-      <S.Wrapper>
-        <S.Detail onClick={onClickItem(props.el)}>
-          <Image01 id={props.id} />
-          <h4>{props.name}</h4>
-        </S.Detail>
-        <S.Wrapper2>
-          <div
-            dangerouslySetInnerHTML={{
-              __html: Dompurify.sanitize(props.contents),
-            }}
-          />
-        </S.Wrapper2>
-        <S.Wrapper3>
-          <div>{props.price}원</div>
-          <S.basket onClick={onClickBasket(props.el)}>
-            <S.HeartOutlinedIcon></S.HeartOutlinedIcon>
-          </S.basket>
-          {/* <button onClick={onClickBasket(props.el)}>장바구니 담기</button> */}
-        </S.Wrapper3>
-      </S.Wrapper>
+      {props.isMobile ? (
+        <S.Wrapper>
+          <S.Detail onClick={onClickItem(props.el)}>
+            <Image01 id={props.id} />
+          </S.Detail>
+          <S.isMobileBox>
+            <h4>{props.name}</h4>
+            <div>{props.price}원</div>
+          </S.isMobileBox>
+        </S.Wrapper>
+      ) : (
+        <S.Wrapper>
+          <S.Detail onClick={onClickItem(props.el)}>
+            <Image01 id={props.id} />
+            <h4>{props.name}</h4>
+          </S.Detail>
+          {!props.isMobile && (
+            <S.Wrapper2>
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: Dompurify.sanitize(props.contents),
+                }}
+              />
+            </S.Wrapper2>
+          )}
+          <S.Wrapper3>
+            <div>{props.price}원</div>
+            {!props.isMobile && (
+              <S.basket onClick={onClickBasket(props.el)}>
+                <S.HeartOutlinedIcon></S.HeartOutlinedIcon>
+              </S.basket>
+            )}
+          </S.Wrapper3>
+        </S.Wrapper>
+      )}
     </>
   );
 }

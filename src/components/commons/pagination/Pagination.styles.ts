@@ -4,6 +4,8 @@ interface IPageProps {
   isActive?: boolean;
 }
 
+export const Wrapper = styled.div``;
+
 export const Page = styled.span`
   margin: 5px;
   cursor: pointer;

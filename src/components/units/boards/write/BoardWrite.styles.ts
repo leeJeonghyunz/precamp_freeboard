@@ -3,15 +3,26 @@ import type { ISubmitButtonProps } from "./BoardWrite.type";
 import { Modal } from "antd";
 import DaumPostcodeEmbed from "react-daum-postcode";
 
+interface IProps {
+  isMobile: boolean;
+}
+
 export const Body = styled.div`
   display: flex;
+  background-color: skyblue;
   flex-direction: column;
   align-items: center;
   border: 1px solid black;
-  padding: 100px 5px;
+  padding: ${(props: IProps) => (props.isMobile ? "10px" : "100px")};
 `;
 
-export const BodyWrapped = styled.div``;
+export const BodyWrapped = styled.div`
+  width: 100%;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: ${(props: IProps) => (props.isMobile ? "center" : "")};
+`;
 
 export const Title = styled.h1`
   font-size: 36px;
@@ -21,35 +32,42 @@ export const Title = styled.h1`
   text-align: center;
 `;
 
-export const InputDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 92px;
-  margin: 10px 0px;
-`;
 export const IdPw = styled.div`
   display: flex;
+  flex-direction: ${(props: IProps) => (props.isMobile ? "column" : "row")};
+  align-items: flex-end;
   justify-content: space-between;
 `;
 export const InputIdPw = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: ${(props: IProps) => (props.isMobile ? "center" : "")};
   width: 486px;
 `;
 
+export const InputDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: ${(props: IProps) => (props.isMobile ? "center" : "")};
+  height: 92px;
+  margin: 10px 0px;
+  width: ${(props: IProps) => (props.isMobile ? "486px" : "100%")};
+`;
+
 export const Input = styled.input`
-  width: 99%;
+  width: ${(props: IProps) => (props.isMobile ? "80%" : "99%")};
+`;
+
+export const TitleInput = styled.input`
+  width: ${(props: IProps) => (props.isMobile ? "80%" : "99%")};
 `;
 
 export const Content = styled.div`
-  width: 996px;
-  height: 520px;
+  width: 99%;
+  height: ${(props: IProps) => (props.isMobile ? "250px" : "520px")};
+  margin-bottom: 70px;
 `;
 
-export const ContentInput = styled.textarea`
-  height: 480px;
-  width: 996px;
-`;
 export const PostCode = styled.input`
   width: 77px;
   height: 52px;
@@ -61,6 +79,8 @@ export const PostDiv = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  width: 95%;
+  margin-bottom: 20px;
 `;
 
 export const PostDiv2 = styled.div`
@@ -80,6 +100,8 @@ export const PostInput = styled.input`
 
 export const YoutubeBox = styled.div`
   height: 80px;
+  width: 95%;
+  margin-bottom: 20px;
 `;
 
 export const YoutubeInput = styled.input`
@@ -127,8 +149,7 @@ export const Save = styled.button`
   height: 52px;
   border: none;
   cursor: pointer;
-  background-color: ${(props: ISubmitButtonProps) =>
-    props.isActive ? "yellow" : ""};
+  background-color: ${(props: ISubmitButtonProps) => (props.isActive ? "yellow" : "")};
 `;
 
 export const Error = styled.div`

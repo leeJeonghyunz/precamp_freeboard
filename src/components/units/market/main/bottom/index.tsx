@@ -1,21 +1,25 @@
-import { useQuery } from "@apollo/client";
-import { USED_ITEMS } from "./LiveMarketPageBottom.queries";
-import type { IQuery } from "../../../../../commons/types/generated/types";
 import * as S from "./styles";
-import { useRouter } from "next/router";
 import Button02 from "../../../../commons/button/02";
-import { useRecoilState } from "recoil";
-import { isEditState } from "../../../../../commons/stores";
-import WatchedItemPage from "../../../../commons/wathchedItem/index";
-import { useMoveToPage } from "../../../../commons/hooks/custom/useMoveToPage";
 import ItemCard02Basket from "../../../../commons/itemCard/02-basket";
+import WatchedItemPage from "../../../../commons/wathchedItem/index";
+import { USED_ITEMS } from "./LiveMarketPageBottom.queries";
+import { useMoveToPage } from "../../../../commons/hooks/custom/useMoveToPage";
+import { isEditState } from "../../../../../commons/stores";
+import { useQuery } from "@apollo/client";
+import { useRouter } from "next/router";
+import { useMediaQuery } from "react-responsive";
+import { useRecoilState } from "recoil";
+import type { IQuery } from "../../../../../commons/types/generated/types";
 
 export default function LiveMarketPageBottom(): JSX.Element {
   const router = useRouter();
   const [isEdit, setIsEdit] = useRecoilState(isEditState);
   const { oncLickMoveToPage } = useMoveToPage();
-
   const { data } = useQuery<Pick<IQuery, "fetchUseditems">>(USED_ITEMS);
+
+  const isMobile = useMediaQuery({
+    query: "(max-width:800px)",
+  });
 
   const onClickUpload = (): void => {
     setIsEdit(false);
@@ -25,10 +29,11 @@ export default function LiveMarketPageBottom(): JSX.Element {
 
   return (
     <>
-      <S.Wrapper>
+      <S.Wrapper isMobile={isMobile}>
         <S.WrapperLeft>
           {data?.fetchUseditems.map((el) => (
             <ItemCard02Basket
+              isMobile={isMobile}
               el={el}
               key={el?._id}
               id={el._id}
@@ -38,12 +43,14 @@ export default function LiveMarketPageBottom(): JSX.Element {
             />
           ))}
         </S.WrapperLeft>
-        <S.WrapperRight>
-          <WatchedItemPage />
-          <S.basket onClick={oncLickMoveToPage("/markets/product/basket")}>
-            <S.HeartOutlinedIcon></S.HeartOutlinedIcon>
-          </S.basket>
-        </S.WrapperRight>
+        {!isMobile && (
+          <S.WrapperRight>
+            <WatchedItemPage />
+            <S.basket onClick={oncLickMoveToPage("/markets/product/basket")}>
+              <S.HeartOutlinedIcon></S.HeartOutlinedIcon>
+            </S.basket>
+          </S.WrapperRight>
+        )}
       </S.Wrapper>
       <Button02 onClick={onClickUpload} title="등록하기" />
     </>

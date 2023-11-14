@@ -11,6 +11,7 @@ interface IItemCardProps {
   price: string;
   el: any;
   id: string;
+  isMobile: boolean;
 }
 
 export default function ItemCard01(props: IItemCardProps): JSX.Element {
@@ -30,17 +31,21 @@ export default function ItemCard01(props: IItemCardProps): JSX.Element {
 
   return (
     <>
-      <S.ItemCard>
-        <div onClick={onClickItem(props.el)}>
+      <S.ItemCard isMobile={props.isMobile}>
+        <S.Wrapper onClick={onClickItem(props.el)}>
           <Image01 id={props.id} />
           <S.Name>{props.name}</S.Name>
-          <S.Contents
-            dangerouslySetInnerHTML={{
-              __html: Dompurify.sanitize(props.contents),
-            }}
-          />
-          <div>{props.price}원</div>
-        </div>
+          {!props.isMobile && (
+            <>
+              <S.Contents
+                dangerouslySetInnerHTML={{
+                  __html: Dompurify.sanitize(props.contents),
+                }}
+              />
+              <div>{props.price}원</div>
+            </>
+          )}
+        </S.Wrapper>
       </S.ItemCard>
     </>
   );

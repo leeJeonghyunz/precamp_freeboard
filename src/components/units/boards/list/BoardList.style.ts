@@ -1,5 +1,9 @@
 import styled from "@emotion/styled";
 
+interface IProps {
+  isMobile: boolean;
+}
+
 export const Wrapper = styled.div`
   width: 100%;
 `;
@@ -14,38 +18,32 @@ export const Row = styled.div`
   display: flex;
   justify-content: space-around;
   padding: 15px 40px;
-  font-size: 16px;
+  font-size: ${(props: IProps) => (props.isMobile ? "12px" : "16px")};
   align-items: center;
   border-bottom: 1px solid grey;
 `;
 
 export const Number = styled.div`
-  width: 40px;
-  margin-right: 30px;
-  font-size: 16px;
+  width: 8%;
 `;
 
 export const Title = styled.div`
-  width: 150px;
+  width: 40%;
   display: flex;
   justify-content: center;
-  margin-right: 30px;
-  font-size: 16px;
   cursor: pointer;
 `;
 
 export const Writer = styled.div`
-  width: 100px;
+  width: 25%;
   display: flex;
   justify-content: center;
-  margin-right: 30px;
-  font-size: 16px;
 `;
 
 export const CreatedAt = styled.div`
   display: flex;
   justify-content: center;
-  width: 250px;
+  width: 27%;
 `;
 
 export const Footer = styled.div`

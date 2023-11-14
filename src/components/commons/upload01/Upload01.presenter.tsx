@@ -5,17 +5,11 @@ export default function Upoload01UI(props: IUpload01UIProps): JSX.Element {
   return (
     <div>
       {props.image !== "" ? (
-        <S.UploadedImage
-          src={`https://storage.googleapis.com/${props.image}`}
-        />
+        <S.UploadedImage src={`https://storage.googleapis.com/${props.image}`} />
       ) : (
         <S.UploadBtn onClick={props.onClickUpload}>+</S.UploadBtn>
       )}
-      <S.UploadHiddenBtn
-        type="file"
-        ref={props.fileRef}
-        onChange={props.onChangeImageFile}
-      />
+      <S.UploadHiddenBtn type="file" ref={props.fileRef} onChange={props.onChangeImageFile} />
     </div>
   );
 }

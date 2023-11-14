@@ -2,8 +2,8 @@ import { HeartOutlined } from "@ant-design/icons";
 import styled from "@emotion/styled";
 
 export const Wrapper = styled.div`
+  width: 100%;
   height: 200px;
-  width: 1000px;
   padding: 10px;
   display: flex;
   border: 1px solid black;
@@ -53,4 +53,13 @@ export const basket = styled.div`
 export const HeartOutlinedIcon = styled(HeartOutlined)`
   font-size: 25px;
   color: black;
+`;
+
+export const isMobileBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+  background-color: rgba(237, 231, 225, 0.68);
 `;

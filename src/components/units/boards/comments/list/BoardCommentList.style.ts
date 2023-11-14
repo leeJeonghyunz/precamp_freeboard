@@ -3,10 +3,12 @@ import { Rate, Modal } from "antd";
 
 export const Wrapper = styled.div`
   margin-top: 40px;
+  height: 100%;
+  word-break: break-all;
 `;
 
 export const Body = styled.div`
-  width: 1200px;
+  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;

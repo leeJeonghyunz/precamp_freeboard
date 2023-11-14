@@ -1,47 +1,50 @@
 import * as S from "./BoardDetail.style";
-import { getDate } from "../../../commons/libraries/utils";
-import type { IBoardDetailUIProps } from "./BoardDetail.types";
-import { Tooltip } from "antd";
 import DOMPurify from "dompurify";
+import { getDate } from "../../../commons/libraries/utils";
+import { Tooltip } from "antd";
+import { useMediaQuery } from "react-responsive";
+import type { IBoardDetailUIProps } from "./BoardDetail.types";
 
 export default function BoardDetailUI(props: IBoardDetailUIProps): JSX.Element {
+  const isMobile = useMediaQuery({
+    query: "(max-width:800px)",
+  });
+
   return (
     <>
-      <S.Body>
-        <S.Wrapper>
+      <S.Body isMobile={isMobile}>
+        <S.Wrapper isMobile={isMobile}>
           <S.WrapperTop>
-            <S.Info>
-              <S.ProfilePhoto></S.ProfilePhoto>
-              <S.InfoBody>
-                <div>{props.data?.fetchBoard?.writer}</div>
-                <div>{getDate(props.data?.fetchBoard?.createdAt)}</div>
-              </S.InfoBody>
-            </S.Info>
             <S.TitleDiv>
               <S.Title>{props.data?.fetchBoard?.title}</S.Title>
+              <S.Icon>
+                <S.LinkIcon></S.LinkIcon>
+                <Tooltip
+                  placement="topRight"
+                  title={`${props.data?.fetchBoard.boardAddress?.address ?? ""} ${
+                    props.data?.fetchBoard.boardAddress?.addressDetail ?? ""
+                  }`}
+                >
+                  <S.LocationIcon></S.LocationIcon>
+                </Tooltip>
+              </S.Icon>
             </S.TitleDiv>
-            <S.Icon>
-              <S.LinkIcon></S.LinkIcon>
-              <Tooltip
-                placement="topRight"
-                title={`${props.data?.fetchBoard.boardAddress?.address ?? ""} ${
-                  props.data?.fetchBoard.boardAddress?.addressDetail ?? ""
-                }`}
-              >
-                <S.LocationIcon></S.LocationIcon>
-              </Tooltip>
-            </S.Icon>
+            <S.Info>
+              <S.InfoBody>
+                <div>
+                  <S.SmallWord> 작성자: {props.data?.fetchBoard?.writer}</S.SmallWord>
+                </div>
+                <div>
+                  <S.SmallWord> {getDate(props.data?.fetchBoard?.createdAt)}</S.SmallWord>
+                </div>
+              </S.InfoBody>
+            </S.Info>
           </S.WrapperTop>
           <S.WrapperContents>
             <S.ImageBox>
               {props.data?.fetchBoard.images
                 ?.filter((el) => el)
-                .map((el) => (
-                  <S.Image
-                    key={el}
-                    src={`https://storage.googleapis.com/${el}`}
-                  ></S.Image>
-                ))}
+                .map((el) => <S.Image key={el} src={`https://storage.googleapis.com/${el}`}></S.Image>)}
             </S.ImageBox>
             {process.browser && (
               <S.Contents
@@ -52,13 +55,11 @@ export default function BoardDetailUI(props: IBoardDetailUIProps): JSX.Element {
             )}
           </S.WrapperContents>
           <S.WrapperBottom>
-            {props.data?.fetchBoard.youtubeUrl !== "" && (
-              <S.Youtube
-                url={props.data?.fetchBoard.youtubeUrl ?? ""}
-                width="486px"
-                height="240px"
-              />
-            )}
+            <S.YoutubeBpx>
+              {props.data?.fetchBoard.youtubeUrl !== "" && (
+                <S.Youtube url={props.data?.fetchBoard.youtubeUrl ?? ""} width="100%" />
+              )}
+            </S.YoutubeBpx>
             <S.LikeWrapped>
               <S.LikeBtnWrapped>
                 <S.LikeBtn onClick={props.onClickLike}></S.LikeBtn>

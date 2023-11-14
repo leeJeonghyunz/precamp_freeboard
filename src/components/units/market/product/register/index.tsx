@@ -7,8 +7,6 @@ import ProductRegisterBody from "./body/ProductRegisterBody.index";
 export default function ProductRegister(): JSX.Element {
   const [isEdit, setIsEdit] = useRecoilState(isEditState);
 
-  useAuth();
-
   return (
     <>
       <Title01 title={isEdit ? "수정하기" : "상품 등록하기"} />

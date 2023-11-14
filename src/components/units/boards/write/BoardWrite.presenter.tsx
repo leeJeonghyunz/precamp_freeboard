@@ -1,29 +1,31 @@
+import * as S from "./BoardWrite.styles";
+import Upoload01 from "../../../commons/upload01/Upload01.container";
 import { ReactQuill } from "../../../commons/react-quill";
 import "react-quill/dist/quill.snow.css";
-import Upoload01 from "../../../commons/upload01/Upload01.container";
-import * as S from "./BoardWrite.styles";
-import type { IBoardWriteUIProps } from "./BoardWrite.type";
 import { v4 as uuidv4 } from "uuid";
+import { useMediaQuery } from "react-responsive";
+import type { IBoardWriteUIProps } from "./BoardWrite.type";
 
 export default function BoardWriteUI(props: IBoardWriteUIProps): JSX.Element {
+  const isMobile = useMediaQuery({
+    query: "(max-width:800px)",
+  });
+
   return (
     <>
       {props.isOpen && (
-        <S.ModalAddress
-          open={props.isOpen}
-          onOk={props.onClickSearchAddress}
-          onCancel={props.onClickSearchAddress}
-        >
+        <S.ModalAddress open={props.isOpen} onOk={props.onClickSearchAddress} onCancel={props.onClickSearchAddress}>
           <S.ModalAddressInput onComplete={props.onCompleteSearchAddress} />
         </S.ModalAddress>
       )}
-      <S.Body>
+      <S.Body isMobile={isMobile}>
         <S.Title>게시물{props.isEdit ? "수정" : "등록"}</S.Title>
-        <S.BodyWrapped>
-          <S.IdPw>
-            <S.InputIdPw>
+        <S.BodyWrapped isMobile={isMobile}>
+          <S.IdPw isMobile={isMobile}>
+            <S.InputIdPw isMobile={isMobile}>
               <p>작성자</p>
               <S.Input
+                isMobile={isMobile}
                 onChange={props.onChangeWriter}
                 placeholder="이름을 입력해주세요."
                 defaultValue={props.data?.fetchBoard.writer ?? ""}
@@ -32,29 +34,27 @@ export default function BoardWriteUI(props: IBoardWriteUIProps): JSX.Element {
               {/* !! 논리연산자 */}
               <S.Error>{props.writerError}</S.Error>
             </S.InputIdPw>
-            <S.InputIdPw>
+            <S.InputIdPw isMobile={isMobile}>
               <p>비밀번호</p>
-              <S.Input
-                onChange={props.onChangePassword}
-                placeholder="비밀번호를 입력해주세요."
-              />
+              <S.Input isMobile={isMobile} onChange={props.onChangePassword} placeholder="비밀번호를 입력해주세요." />
               <S.Error>{props.passwordError}</S.Error>
             </S.InputIdPw>
           </S.IdPw>
-          <S.InputDiv>
+          <S.InputDiv isMobile={isMobile}>
             <p>제목</p>
-            <input
+            <S.Input
+              isMobile={isMobile}
               onChange={props.onChangeTitle}
               placeholder="제목을 입력해주세요."
               defaultValue={props.data?.fetchBoard.title}
             />
             <S.Error>{props.titleError}</S.Error>
           </S.InputDiv>
-          <S.Content>
+          <S.Content isMobile={isMobile}>
             <p>내용</p>
             <ReactQuill
               onChange={props.onChangeContents}
-              style={{ height: "400px" }}
+              style={{ height: isMobile ? "250px" : "520px" }}
               defaultValue={props.data?.fetchBoard.contents ?? ""}
             />
             <S.Error>{props.contentsError}</S.Error>
@@ -64,29 +64,17 @@ export default function BoardWriteUI(props: IBoardWriteUIProps): JSX.Element {
             <S.PostDiv2>
               <S.PostCode
                 readOnly
-                value={
-                  props.zipcode !== ""
-                    ? props.zipcode
-                    : props.data?.fetchBoard.boardAddress?.zipcode
-                }
+                value={props.zipcode !== "" ? props.zipcode : props.data?.fetchBoard.boardAddress?.zipcode}
               />
-              <S.SearchBtn onClick={props.onClickSearchAddress}>
-                우편번호 검색
-              </S.SearchBtn>
+              <S.SearchBtn onClick={props.onClickSearchAddress}>우편번호 검색</S.SearchBtn>
             </S.PostDiv2>
             <S.PostInput
               readOnly
-              value={
-                props.address !== ""
-                  ? props.address
-                  : props.data?.fetchBoard.boardAddress?.address
-              }
+              value={props.address !== "" ? props.address : props.data?.fetchBoard.boardAddress?.address}
             />
             <S.PostInput
               onChange={props.onChangeAddressDetail}
-              defaultValue={
-                props.data?.fetchBoard.boardAddress?.addressDetail ?? ""
-              }
+              defaultValue={props.data?.fetchBoard.boardAddress?.addressDetail ?? ""}
             />
           </S.PostDiv>
           <S.YoutubeBox>
@@ -102,6 +90,7 @@ export default function BoardWriteUI(props: IBoardWriteUIProps): JSX.Element {
             <S.PicDiv2>
               {props.image.map((el, index) => (
                 <Upoload01
+                  isEdit={props.isEdit}
                   key={uuidv4()}
                   index={index}
                   image={el}
@@ -110,19 +99,6 @@ export default function BoardWriteUI(props: IBoardWriteUIProps): JSX.Element {
               ))}
             </S.PicDiv2>
           </S.PicDiv>
-          <S.CheckBox>
-            <p>메인 설정</p>
-            <S.CheckBoxLabel>
-              <label>
-                <input name="a" type="radio" />
-                유튜브
-              </label>
-              <label>
-                <input name="a" type="radio" />
-                사진
-              </label>
-            </S.CheckBoxLabel>
-          </S.CheckBox>
         </S.BodyWrapped>
         <S.Save
           onClick={props.isEdit ? props.onClickEdit : props.onClickUpload}

@@ -1,14 +1,23 @@
 import * as S from "./BoardComment.styles";
 import type { ICommentWriteUIProps } from "./BoardComment.types";
+import { useMediaQuery } from "react-responsive";
 
-export default function CommentWriteUI(
-  props: ICommentWriteUIProps,
-): JSX.Element {
+export default function CommentWriteUI(props: ICommentWriteUIProps): JSX.Element {
+  const isMobile = useMediaQuery({
+    query: "(max-width:800px)",
+  });
+
   return (
     <>
       <S.Wrapper>
-        <S.TitleBox>
-          <span>댓글</span>
+        <S.TitleBox isMobile={isMobile}>
+          <div>댓글</div>
+          <S.Star
+            isMobile={isMobile}
+            onChange={props.setStar}
+            defaultValue={props.isEdit ? props.el?.rating : 0}
+            value={props.star}
+          />
         </S.TitleBox>
         <S.BodyWrapper>
           <S.InfoWrapper>
@@ -24,11 +33,6 @@ export default function CommentWriteUI(
               type="password"
               value={props.password}
             />
-            <S.Star
-              onChange={props.setStar}
-              defaultValue={props.isEdit ? props.el?.rating : 0}
-              value={props.star}
-            />
           </S.InfoWrapper>
           <S.ContentWrapper>
             <S.Content
@@ -39,11 +43,7 @@ export default function CommentWriteUI(
             ></S.Content>
             <S.SubmitWrapper>
               <span>0/100</span>
-              <S.SubBtn
-                onClick={props.isEdit ? props.onClickEdit : props.onClickSubmit}
-              >
-                등록하기
-              </S.SubBtn>
+              <S.SubBtn onClick={props.isEdit ? props.onClickEdit : props.onClickSubmit}>등록하기</S.SubBtn>
             </S.SubmitWrapper>
           </S.ContentWrapper>
         </S.BodyWrapper>

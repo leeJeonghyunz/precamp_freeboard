@@ -1,52 +1,72 @@
 import styled from "@emotion/styled";
-import {
-  LikeOutlined,
-  DislikeOutlined,
-  LinkOutlined,
-  SendOutlined,
-} from "@ant-design/icons";
+import { LikeOutlined, DislikeOutlined, LinkOutlined, SendOutlined } from "@ant-design/icons";
 import ReactPlayer from "react-player";
 import { Modal } from "antd";
 
+interface IProps {
+  isMobile: boolean;
+}
+
 export const Body = styled.div`
+  width: 100%;
   display: flex;
   justify-content: center;
 `;
 
+export const SmallWord = styled.span`
+  font-weight: 400;
+  font-size: 12px;
+`;
+
 export const Wrapper = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
   padding: 20px 100px;
   border: 1px solid rgba(0, 0, 0, 0.5);
-  width: 1200px;
   box-shadow: 5px 5px 5px gray;
+  padding: ${(props: IProps) => (props.isMobile ? "20px 0" : "20px 100px")};
 `;
+
 export const WrapperTop = styled.div`
   width: 100%;
-  height: 100px;
+  height: 80px;
   display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: flex-end;
-  padding-bottom: 30px;
+  flex-direction: column;
+  padding-bottom: 5px;
   border-bottom: solid 1px #bdbdbd;
 `;
+
+export const TitleDiv = styled.div`
+  display: flex;
+  justify-content: space-between;
+  background-color: rgba(161, 162, 163, 0.5);
+  align-items: center;
+  width: 100%;
+  height: 50px;
+  padding: 5px;
+`;
+
 export const Info = styled.div`
   display: flex;
   align-items: flex-end;
 `;
+
+export const Icon = styled.div`
+  display: flex;
+`;
+
 export const ProfilePhoto = styled.div`
   width: 56px;
   height: 56px;
   background-color: gray;
 `;
 export const InfoBody = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
   margin-left: 10px;
   margin-right: 10px;
-`;
-
-export const Icon = styled.div`
-  display: flex;
 `;
 
 export const LinkIcon = styled(LinkOutlined)`
@@ -62,15 +82,7 @@ export const WrapperContents = styled.div`
   margin-top: 80px;
 `;
 
-export const TitleDiv = styled.div`
-  width: 70%;
-  background-color: rgba(239, 239, 240, 1);
-  border-radius: 10px;
-  padding: 5px;
-`;
-
-export const Title = styled.h1`
-  font-size: 36px;
+export const Title = styled.h4`
   color: black;
 `;
 
@@ -92,9 +104,15 @@ export const Contents = styled.p`
 
 export const WrapperBottom = styled.div`
   margin-top: 100px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+`;
+
+export const YoutubeBpx = styled.div`
+  width: 100%;
+  border: 1px solid blue;
 `;
 
 export const Youtube = styled(ReactPlayer)`
