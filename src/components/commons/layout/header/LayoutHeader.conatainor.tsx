@@ -2,17 +2,18 @@ import { useRouter } from "next/router";
 import LayoutHeaderUI from "./LayoutHeader.presenter";
 import { FETCH_USER_LOGGED_IN } from "../../../units/main/Main.queries";
 import type { IQuery } from "../../../../commons/types/generated/types";
-import { useQuery } from "@apollo/client";
+import { useApolloClient, useQuery } from "@apollo/client";
 import { useRecoilState } from "recoil";
 import { accessTokenState, accessTokenUserName, isLoginState } from "../../../../commons/stores";
 import { useMutationLogoutUser } from "../../hooks/mutations/useMutationLogoutUser";
 import { useMediaQuery } from "react-responsive";
+import { useEffect } from "react";
 
 export default function LayoutHeader(): JSX.Element {
   const isMobile = useMediaQuery({
     query: "(max-width:800px)",
   });
-
+  const client = useApolloClient();
   const router = useRouter();
   const [logoutUser] = useMutationLogoutUser();
   const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
@@ -21,14 +22,15 @@ export default function LayoutHeader(): JSX.Element {
 
   const { data } = useQuery<Pick<IQuery, "fetchUserLoggedIn">>(FETCH_USER_LOGGED_IN);
   if (data !== undefined) {
-    const a = data.fetchUserLoggedIn.name;
-    setUserName(a);
+    setUserName(data?.fetchUserLoggedIn?.name);
+    console.log(data?.fetchUserLoggedIn?.name);
     console.log(data);
-    console.log(a);
+    setIsLogin(true);
   } else {
     setUserName("");
-    console.log("1");
+    console.log(isLogin);
   }
+  console.log(isLogin);
 
   const onClickLogo = (): void => {
     void router.push("/boards/list");
@@ -36,32 +38,37 @@ export default function LayoutHeader(): JSX.Element {
 
   const onClickLogin = (): void => {
     void router.push("/main");
-    console.log(userName);
-    console.log(accessToken);
-    console.log(isLogin);
   };
 
   const onClickJoin = (): void => {
     void router.push("/join");
   };
 
+  // useEffect(() => {
+  //   if (accessToken !== undefined) {
+  //     setIsLogin(true);
+  //   }
+  // });
+
   const onClcikLogout = async (): Promise<void> => {
     const result = await logoutUser({
-      refetchQueries: [
-        {
+      update(cache) {
+        cache.writeQuery({
           query: FETCH_USER_LOGGED_IN,
-        },
-      ],
+          data: { fetchUserLoggedIn: null },
+        });
+      },
     });
+    console.log("s눌렀다");
     setAccessToken("");
     setIsLogin(false);
     setUserName("");
-    console.log(result);
-    console.log(data);
+    router.reload();
   };
 
   return (
     <LayoutHeaderUI
+      data={data}
       onClickLogo={onClickLogo}
       userName={userName}
       onClickLogin={onClickLogin}

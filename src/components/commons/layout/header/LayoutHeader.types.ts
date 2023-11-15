@@ -6,5 +6,6 @@ export interface ILayoutHeaderProps {
   onClickJoin: () => void;
   userName: string;
   onClcikLogout: () => void;
-  isMobile: booleanl;
+  isMobile: boolean;
+  data: Pick<IQuery, "fetchUserLoggedIn"> | undefined;
 }

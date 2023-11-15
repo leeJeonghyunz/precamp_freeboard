@@ -27,13 +27,13 @@ export const Logo = styled.div`
 `;
 
 export const LoginWrapper = styled.div`
-  width: ${(props: IProps) => (props.isMobile ? "150px" : "230px")};
   display: flex;
   justify-content: space-between;
 `;
 
 export const BtnWrapper = styled.div`
   display: flex;
+  width: 100%;
 `;
 
 export const Btn = styled.button`

@@ -5,9 +5,11 @@ import { useRecoilState } from "recoil";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schema } from "../../commons/validation/Main";
 import { useMediaQuery } from "react-responsive";
-import { accessTokenState, isLoginState } from "../../../commons/stores";
+import { accessTokenState, accessTokenUserName, isLoginState } from "../../../commons/stores";
 import { useMutationLoginUser } from "../../commons/hooks/mutations/useMutaitonLoginUser";
 import { FETCH_USER_LOGGED_IN } from "./Main.queries";
+import { useQuery } from "@apollo/client";
+import { IQuery } from "../../../commons/types/generated/types";
 
 interface IFormData {
   email: string;
@@ -18,7 +20,10 @@ export default function MainPage(): JSX.Element {
   const [, setAccessToken] = useRecoilState(accessTokenState);
   const [, setIsLogin] = useRecoilState(isLoginState);
   const [loginUser] = useMutationLoginUser();
+  const [userName, setUserName] = useRecoilState(accessTokenUserName);
   const router = useRouter();
+
+  // const {data} = useQuery<Pick<IQuery,"fetchUserLoggedIn">>(FETCH_USER_LOGGED_IN)
 
   const isMobile = useMediaQuery({
     query: "(max-width:800px)",
@@ -40,20 +45,16 @@ export default function MainPage(): JSX.Element {
         email: data.email,
         password: data.password,
       },
-      refetchQueries: [
-        {
-          query: FETCH_USER_LOGGED_IN,
-        },
-      ],
     });
+
     const accessToken = result.data?.loginUser.accessToken;
     if (accessToken === undefined) {
       alert("로그인실패");
       return;
     }
     setAccessToken(accessToken);
-    // localStorage.setItem("accessToken", accessToken); // 임시저장
-    console.log(accessToken);
+    localStorage.setItem("accessToken", accessToken); // 임시저장
+    // console.log(accessToken);
     setIsLogin(true);
     void router.push("/boards/list");
   };

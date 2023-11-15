@@ -17,7 +17,7 @@ export default function LayoutHeaderUI(props: ILayoutHeaderProps): JSX.Element {
           {isLogin ? (
             <>
               <S.BtnWrapper>
-                {userName}님 환영합니다!
+                {userName}님 <br /> 환영합니다!
                 <S.Btn onClick={props.onClcikLogout}>로그아웃</S.Btn>
               </S.BtnWrapper>
             </>

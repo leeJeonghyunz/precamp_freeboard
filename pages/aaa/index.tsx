@@ -1,24 +1,22 @@
-import * as S from "./styles";
-import { useMediaQuery } from "react-responsive";
+import { useQuery } from "@apollo/client";
+import { FETCH_USER_LOGGED_IN } from "../../src/components/units/main/Main.queries";
+import { IMutation, IQuery } from "../../src/commons/types/generated/types";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
-export default function StaticRoutingMovedPage(): JSX.Element {
-  const isMobile = useMediaQuery({
-    query: "(max-width:800px)",
-  });
+export default function AAA(): JSX.Element {
+  const { data } = useQuery<Pick<IQuery, "fetchUserLoggedIn">>(FETCH_USER_LOGGED_IN);
+  const router = useRouter();
+  console.log(data);
+
+  const aa = () => {
+    router.reload();
+  };
 
   return (
     <>
-      <S.Body>
-        <S.Wrapper isMobile={isMobile}>
-          <S.InputWrap>
-            <input type="text" />
-            <input type="text" />
-          </S.InputWrap>
-          <div>
-            <S.Button isMobile={isMobile}>ㅇㅇㅇㅇㅇㅇ</S.Button>
-          </div>
-        </S.Wrapper>
-      </S.Body>
+      {data?.fetchUserLoggedIn.name}
+      <button onClick={aa}></button>
     </>
   );
 }
