@@ -9,7 +9,7 @@ module.exports = {
       env: {
         node: true,
       },
-      files: [".eslintrc.{js,cjs}"],
+      files: [".eslintrc.{js,cjs,mjs}"],
       parserOptions: {
         sourceType: "script",
       },
@@ -20,6 +20,7 @@ module.exports = {
     ecmaVersion: "latest",
     sourceType: "module",
   },
+  ignorePatterns: ["**/*.js", "**/*.mjs"],
   plugins: ["react"],
   rules: {
     "react/react-in-jsx-scope": "off",

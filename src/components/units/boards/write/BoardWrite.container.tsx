@@ -177,6 +177,9 @@ export default function BoardWrite(props: IBoardWriteProps): JSX.Element {
     if (title !== "") updateBoardInput.title = title;
     if (contents !== "") updateBoardInput.contents = contents;
     if (youtubeUrl !== "") updateBoardInput.youtubeUrl = youtubeUrl;
+    if (image.some((item) => item !== "")) {
+      updateBoardInput.images = image;
+    }
     if (zipcode !== "" || address !== "" || addressDetail !== "") {
       updateBoardInput.boardAddress = {};
       if (zipcode !== "") updateBoardInput.boardAddress.zipcode = zipcode;

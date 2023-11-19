@@ -43,6 +43,8 @@
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^4.0.1",
+    "@testing-library/jest-dom": "^6.1.4",
+    "@testing-library/react": "^12.1.0",
     "@types/apollo-upload-client": "^17.0.2",
     "@types/dompurify": "^3.0.3",
     "@types/lodash": "^4.14.197",
@@ -52,6 +54,7 @@
     "@types/uuid": "^9.0.2",
     "@types/zen-observable": "^0.8.4",
     "@typescript-eslint/eslint-plugin": "^5.50.0",
+    "cross-fetch": "^4.0.0",
     "cypress": "^13.3.3",
     "eslint": "^8.0.1",
     "eslint-config-next": "13.4.10",
@@ -62,6 +65,10 @@
     "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-react": "^7.32.2",
     "husky": "^8.0.3",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "msw": "^2.0.8",
+    "next-router-mock": "^0.9.10",
     "prettier": "3.0.0",
     "typescript": "*"
   },

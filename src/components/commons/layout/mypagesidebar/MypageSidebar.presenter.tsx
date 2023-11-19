@@ -1,12 +1,16 @@
 import * as S from "./MypageSidebar.styles";
+import { accessTokenUserName } from "../../../../commons/stores";
+import { useRecoilState } from "recoil";
+import type { IMypageSideBarProps } from "./MyPageSidebar.types";
 
-export default function MypageSidebarUI(): JSX.Element {
+export default function MypageSidebarUI(props: IMypageSideBarProps): JSX.Element {
+  const [userName, setUserName] = useRecoilState(accessTokenUserName);
   return (
     <>
       <S.Wrapper>
         <S.Title>Mypage</S.Title>
         <S.ProfileImg src="/images/ic_profile-96px.png" />
-        <S.Title>이름</S.Title>
+        <S.Title>{userName} 님</S.Title>
         <S.PointBox>
           <S.Icon src="/images/Vector.png" />
           <S.LittleSpan> 100,000</S.LittleSpan>

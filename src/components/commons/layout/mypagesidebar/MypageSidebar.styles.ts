@@ -38,3 +38,10 @@ export const WrapperBottomNav = styled.div`
   height: 40px;
   width: 86px;
 `;
+
+export const WrapperBottomBtn = styled.button`
+  background-color: rgb(199, 177, 177);
+  height: 40px;
+  width: 86px;
+  cursor: pointer;
+`;
