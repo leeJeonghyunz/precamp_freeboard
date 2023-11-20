@@ -1,13 +1,14 @@
 import * as S from "./styles";
 import Dompurify from "dompurify";
 import Image01 from "../../DetailImg";
-import type { IBoard } from "../../../../commons/types/generated/types";
 import { useRouter } from "next/router";
+import type { IBoard } from "../../../../commons/types/generated/types";
+import type { Maybe } from "yup";
 
 interface IItemCardProps {
   name: string;
   contents: string;
-  price: string;
+  price: Maybe<number>;
   id: string;
   el: any;
   isMobile: boolean;

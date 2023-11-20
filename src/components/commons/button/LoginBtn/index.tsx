@@ -3,7 +3,7 @@ import * as S from "./styles";
 interface IButtonProps {
   isActive: boolean;
   isMobile: boolean;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 export default function LoginBtn(props: IButtonProps): JSX.Element {

@@ -4,7 +4,7 @@ declare const window: typeof globalThis & {
   kakao: any;
 };
 
-export default function KakaoMapPage(props): JSX.Element {
+export default function KakaoMapPage(props: any): JSX.Element {
   useEffect(() => {
     const script = document.createElement("script"); // <script><script>
     script.src =
@@ -27,13 +27,10 @@ export default function KakaoMapPage(props): JSX.Element {
         const geocoder = new window.kakao.maps.services.Geocoder();
 
         // 주소로 좌표를 검색합니다
-        geocoder.addressSearch(props.address, function (result, status) {
+        geocoder.addressSearch(props.address, function (result: any, status: any) {
           // 정상적으로 검색이 완료됐으면
           if (status === window.kakao.maps.services.Status.OK) {
-            const coords = new window.kakao.maps.LatLng(
-              result[0].y,
-              result[0].x,
-            );
+            const coords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
 
             // 결과값으로 받은 위치를 마커로 표시합니다
             const marker = new window.kakao.maps.Marker({
@@ -43,8 +40,7 @@ export default function KakaoMapPage(props): JSX.Element {
 
             // 인포윈도우로 장소에 대한 설명을 표시합니다
             const infowindow = new window.kakao.maps.InfoWindow({
-              content:
-                '<div style="width:150px;text-align:center;padding:6px 0;">거래장소</div>',
+              content: '<div style="width:150px;text-align:center;padding:6px 0;">거래장소</div>',
             });
             infowindow.open(map, marker);
 

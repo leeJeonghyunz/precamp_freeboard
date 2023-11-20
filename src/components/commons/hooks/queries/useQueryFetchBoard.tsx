@@ -1,4 +1,5 @@
 import { gql, useQuery } from "@apollo/client";
+import type { QueryResult } from "@apollo/client";
 import type { IQueryFetchBoardArgs } from "../../../../commons/types/generated/types";
 
 export const FETCH_BOARD = gql`
@@ -22,7 +23,7 @@ export const FETCH_BOARD = gql`
   }
 `;
 
-export const useQueryFetchBoard = (variables: IQueryFetchBoardArgs) => {
+export const useQueryFetchBoard = (variables: IQueryFetchBoardArgs): QueryResult<any> => {
   const query = useQuery(FETCH_BOARD, {
     variables,
   });

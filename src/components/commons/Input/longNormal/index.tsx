@@ -1,5 +1,3 @@
-import { UseFormRegisterReturn } from "react-hook-form";
-
 interface IInputProps {
   tag: any;
 }

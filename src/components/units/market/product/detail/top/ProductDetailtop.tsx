@@ -8,9 +8,6 @@ export default function ProductDetailTop(): JSX.Element {
   const { data } = useQueryFetchUsedItem({
     useditemId: String(router.query.number),
   });
-  const aa = () => {
-    console.log(data);
-  };
 
   return (
     <>

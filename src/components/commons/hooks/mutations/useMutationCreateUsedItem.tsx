@@ -1,8 +1,6 @@
 import { gql, useMutation } from "@apollo/client";
-import type {
-  IMutation,
-  IMutationCreateUseditemArgs,
-} from "../../../../commons/types/generated/types";
+import type { MutationTuple } from "@apollo/client";
+import type { IMutation, IMutationCreateUseditemArgs } from "../../../../commons/types/generated/types";
 
 export const CREATE_USED_ITEM = gql`
   mutation createUseditem($createUseditemInput: CreateUseditemInput!) {
@@ -15,11 +13,11 @@ export const CREATE_USED_ITEM = gql`
     }
   }
 `;
-export const useMutationCreateUsedItem = () => {
-  const mutation = useMutation<
-    Pick<IMutation, "createUseditem">,
-    IMutationCreateUseditemArgs
-  >(CREATE_USED_ITEM);
+export const useMutationCreateUsedItem = (): MutationTuple<
+  Pick<IMutation, "createUseditem">,
+  IMutationCreateUseditemArgs
+> => {
+  const mutation = useMutation<Pick<IMutation, "createUseditem">, IMutationCreateUseditemArgs>(CREATE_USED_ITEM);
 
   return mutation;
 };

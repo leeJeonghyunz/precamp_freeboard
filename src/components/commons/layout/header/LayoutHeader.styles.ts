@@ -1,8 +1,5 @@
 import styled from "@emotion/styled";
 
-interface IProps {
-  isMobile: boolean;
-}
 
 export const Wrapper = styled.div`
   height: 150px;

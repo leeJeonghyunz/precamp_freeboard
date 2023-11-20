@@ -1,6 +1,7 @@
 import { useApolloClient } from "@apollo/client";
 import { USED_ITEM, useQueryFetchUsedItem } from "../hooks/queries/useQueryFetchUsedItem";
 import * as S from "./styles";
+import { wrapAsync } from "../../../commons/libraries/asyncFunc";
 
 interface IImageProps {
   id: string;
@@ -23,7 +24,7 @@ export default function Image01(props: IImageProps): JSX.Element {
 
   return (
     <>
-      <div onMouseOver={prefetchBoard(props.id)}>
+      <div onMouseOver={wrapAsync(prefetchBoard(props.id))}>
         {image && <S.Image src={`https://storage.googleapis.com/${image}`} />}
       </div>
     </>

@@ -1,7 +1,7 @@
 import * as S from "./stye";
 
 interface IButtonProps {
-  isActive: boolean;
+  isActive?: boolean;
   title: string;
   onClick: () => void;
 }

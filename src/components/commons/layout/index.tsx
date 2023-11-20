@@ -7,7 +7,7 @@ import { useMediaQuery } from "react-responsive";
 interface ILayoutProps {
   children: JSX.Element;
 }
-const HIDDEN_BODY = ["/main"];
+const HIDDEN_BODY = ["/main/"];
 
 export default function Layout(props: ILayoutProps): JSX.Element {
   const router = useRouter();
@@ -18,6 +18,7 @@ export default function Layout(props: ILayoutProps): JSX.Element {
     query: "(max-width:800px)",
   });
 
+  console.log(router.asPath);
   return (
     <>
       {!isHiddenBody ? (

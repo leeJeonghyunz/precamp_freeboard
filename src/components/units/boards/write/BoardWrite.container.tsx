@@ -1,6 +1,6 @@
 import { useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import type { ChangeEvent } from "react";
 import BoardWriteUI from "./BoardWrite.presenter";
 import { CREATE_BOARD, UPDATE_BOARD } from "./BoardWrite.queries";
@@ -15,7 +15,6 @@ import type { Address } from "react-daum-postcode";
 
 export default function BoardWrite(props: IBoardWriteProps): JSX.Element {
   const router = useRouter();
-  const fileRef = useRef<HTMLInputElement>(null);
 
   const [isActive, setIsActive] = useState(false);
   const [writer, setWriter] = useState("");
@@ -237,7 +236,6 @@ export default function BoardWrite(props: IBoardWriteProps): JSX.Element {
       onChangeYoutubeUrl={onChangeYoutubeUrl}
       onChangeImage={onChangeImage}
       image={image}
-      fileRef={fileRef}
     />
   );
 }

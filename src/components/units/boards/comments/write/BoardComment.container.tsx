@@ -1,7 +1,7 @@
 import CommentWriteUI from "./BoardComment.presenter";
 import { FETCH_COMMENTS } from "../list/BoardCommentList.queries";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import type { ChangeEvent } from "react";
 import type { IUpdateBoardCommentInput } from "../../../../../commons/types/generated/types";
 import type { ICommentWriteProps } from "./BoardComment.types";
@@ -33,14 +33,14 @@ export default function CommentWrite(props: ICommentWriteProps): JSX.Element {
     setContents(event.target.value);
   }
 
-  const resetFields = () => {
+  const resetFields = (): void => {
     setWriter("");
     setPassword("");
     setContents("");
   };
 
   const onClickSubmit = async (): Promise<void> => {
-    const result = await createBoardComment({
+    await createBoardComment({
       variables: {
         createBoardCommentInput: {
           writer,
@@ -85,7 +85,7 @@ export default function CommentWrite(props: ICommentWriteProps): JSX.Element {
         ],
       });
       console.log(result);
-      props.setIsEdit(false);
+      props.setIsEdit?.(false);
     } catch (error) {
       if (error instanceof Error) alert(error.message);
     }
@@ -98,7 +98,7 @@ export default function CommentWrite(props: ICommentWriteProps): JSX.Element {
       onChangePassword={onChangePassword}
       onChangeContents={onChangeContents}
       setStar={setStar}
-      isEdit={props.isEdit}
+      isEdit={props.isEdit !== undefined ? props.isEdit : false}
       onClickEdit={onClickEdit}
       writer={writer}
       password={password}

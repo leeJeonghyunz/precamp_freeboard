@@ -1,7 +1,12 @@
 import * as S from "./hmm.styles";
 import { useMediaQuery } from "react-responsive";
 
-export default function HmmUI(props): JSX.Element {
+interface IHmmUIProps {
+  dog: any;
+  onClickReload: () => Promise<void>;
+}
+
+export default function HmmUI(props: IHmmUIProps): JSX.Element {
   const isMobile = useMediaQuery({
     query: "(max-width:800px)",
   });

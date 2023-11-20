@@ -2,13 +2,13 @@ import * as S from "./styles";
 import Image01 from "../../DetailImg";
 import Dompurify from "dompurify";
 import { useRouter } from "next/router";
-import { useMoveToPage } from "../../hooks/custom/useMoveToPage";
 import type { IBoard } from "../../../../commons/types/generated/types";
+import type { Maybe } from "yup";
 
 interface IItemCardProps {
   name: string;
   contents: string;
-  price: string;
+  price: Maybe<number>;
   el: any;
   id: string;
   isMobile: boolean;

@@ -18,10 +18,10 @@ export default function MyFirebaseUI(props: IMyFirebaseUIProps): JSX.Element {
             <S.Writer>{el.writer}</S.Writer>
             <S.Title>{el.title}</S.Title>
             <span>{el.contents}</span>
-            <button id={uuidv4()} onClick={props.onClickDelete}>
+            {/* <button id={uuidv4()} onClick={props.onClickDelete}>
               {" "}
               삭제{" "}
-            </button>
+            </button> */}
           </S.TableBody>
         ))}
       </div>

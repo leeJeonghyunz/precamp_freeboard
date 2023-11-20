@@ -1,4 +1,3 @@
-import type { MouseEvent } from "react";
 import type { FormState } from "react-hook-form";
 
 export interface IFormData {

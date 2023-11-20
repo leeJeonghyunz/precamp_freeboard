@@ -17,7 +17,10 @@ export default function Upoload01(props: IUploads01Props): JSX.Element {
     if (!isValid) return;
 
     const result = await uploadFile({ variables: { file } });
-    props.onChangeImage(result.data?.uploadFile.url, props.index);
+    const imageUrl = result.data?.uploadFile.url;
+    if (imageUrl !== undefined) {
+      props.onChangeImage(imageUrl, props.index);
+    }
     console.log(result);
   };
 

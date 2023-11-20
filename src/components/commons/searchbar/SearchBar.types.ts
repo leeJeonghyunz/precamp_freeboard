@@ -1,9 +1,6 @@
 import type { ApolloQueryResult } from "@apollo/client";
 import type { ChangeEvent } from "react";
-import type {
-  IQuery,
-  IQueryFetchBoardsArgs,
-} from "../../../commons/types/generated/types";
+import type { IQuery, IQueryFetchBoardsArgs } from "../../../commons/types/generated/types";
 
 export interface ISearchBarUIProps {
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;

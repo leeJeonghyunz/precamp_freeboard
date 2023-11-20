@@ -1,8 +1,6 @@
 import { gql, useMutation } from "@apollo/client";
-import type {
-  IMutation,
-  IMutationDeleteUseditemArgs,
-} from "../../../../commons/types/generated/types";
+import type { MutationTuple } from "@apollo/client";
+import type { IMutation, IMutationDeleteUseditemArgs } from "../../../../commons/types/generated/types";
 
 export const DELETE_USEDITEM = gql`
   mutation deleteUseditem($useditemId: ID!) {
@@ -10,11 +8,11 @@ export const DELETE_USEDITEM = gql`
   }
 `;
 
-export const useMutationDeleteUsedItem = () => {
-  const mutation = useMutation<
-    Pick<IMutation, "deleteUseditem">,
-    IMutationDeleteUseditemArgs
-  >(DELETE_USEDITEM);
+export const useMutationDeleteUsedItem = (): MutationTuple<
+  Pick<IMutation, "deleteUseditem">,
+  IMutationDeleteUseditemArgs
+> => {
+  const mutation = useMutation<Pick<IMutation, "deleteUseditem">, IMutationDeleteUseditemArgs>(DELETE_USEDITEM);
 
   return mutation;
 };

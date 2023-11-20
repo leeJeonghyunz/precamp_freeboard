@@ -1,11 +1,9 @@
 import type { IFirebaseWriteUIProps } from "./MyfirebaseWrite.types";
 
-export default function FirebaseWriteUI(
-  props: IFirebaseWriteUIProps,
-): JSX.Element {
+export default function FirebaseWriteUI(props: IFirebaseWriteUIProps): JSX.Element {
   return (
     <>
-      <div wrapper>
+      <div>
         <div>
           작성자: <input onChange={props.onChangeWriter} />
         </div>

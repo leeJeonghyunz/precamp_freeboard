@@ -13,7 +13,7 @@ export default function LayoutHeaderUI(props: ILayoutHeaderProps): JSX.Element {
     <S.Wrapper>
       <S.InnerWrapper>
         <S.Logo onClick={props.onClickLogo}>Logo</S.Logo>
-        <S.LoginWrapper isMobile={props.isMobile}>
+        <S.LoginWrapper>
           {isLogin ? (
             <>
               <S.BtnWrapper>
@@ -23,8 +23,8 @@ export default function LayoutHeaderUI(props: ILayoutHeaderProps): JSX.Element {
             </>
           ) : (
             <>
-              <LoginBtn onClick={props.onClickLogin} />
-              <JoinBtn onClick={props.onClickJoin} />
+              <LoginBtn onClick={props.onClickLogin} isActive={false} isMobile={false} />
+              <JoinBtn onClick={props.onClickJoin} isMobile={false} />
             </>
           )}
         </S.LoginWrapper>

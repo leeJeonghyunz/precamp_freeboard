@@ -7,7 +7,7 @@ interface IProps {
 export const Body = styled.div`
   width: 100%;
   height: 850px;
-  background-image: url("images/1600w-JLofAI27pCg.webp");
+  background-image: url("/images/1600w-JLofAI27pCg.webp");
   background-size: contain;
   display: flex;
   justify-content: center;

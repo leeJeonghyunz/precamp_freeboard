@@ -27,9 +27,7 @@ export default function MainPageUI(props: IMainPageUIProps): JSX.Element {
             <S.BtnWrapper isMobile={props.isMobile}>
               <LoginBtn isActive={props.formState.isValid} isMobile={props.isMobile} />
               <NonMemberBtn onClick={props.onClickNonMember} isMobile={props.isMobile} />
-              <JoinBtn onClick={props.onClickJoin} isMobile={props.isMobile}>
-                회원가입
-              </JoinBtn>
+              <JoinBtn onClick={props.onClickJoin} isMobile={props.isMobile} />
             </S.BtnWrapper>
           </form>
         </S.Wrapper>

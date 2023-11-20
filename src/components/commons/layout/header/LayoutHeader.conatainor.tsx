@@ -2,18 +2,16 @@ import { useRouter } from "next/router";
 import LayoutHeaderUI from "./LayoutHeader.presenter";
 import { FETCH_USER_LOGGED_IN } from "../../../units/main/Main.queries";
 import type { IQuery } from "../../../../commons/types/generated/types";
-import { useApolloClient, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { useRecoilState } from "recoil";
 import { accessTokenState, accessTokenUserName, isLoginState } from "../../../../commons/stores";
 import { useMutationLogoutUser } from "../../hooks/mutations/useMutationLogoutUser";
 import { useMediaQuery } from "react-responsive";
-import { useEffect } from "react";
 
 export default function LayoutHeader(): JSX.Element {
   const isMobile = useMediaQuery({
     query: "(max-width:800px)",
   });
-  const client = useApolloClient();
   const router = useRouter();
   const [logoutUser] = useMutationLogoutUser();
   const [accessToken, setAccessToken] = useRecoilState(accessTokenState);

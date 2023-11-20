@@ -1,7 +1,6 @@
 import styled from "@emotion/styled";
 import { LikeOutlined, DislikeOutlined, LinkOutlined, SendOutlined } from "@ant-design/icons";
 import ReactPlayer from "react-player";
-import { Modal } from "antd";
 
 interface IProps {
   isMobile: boolean;

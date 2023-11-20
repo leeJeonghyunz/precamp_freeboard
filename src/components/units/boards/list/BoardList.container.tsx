@@ -3,19 +3,13 @@ import BoardListUI from "./BoardList.presenter";
 import { useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import { useState, type MouseEvent } from "react";
-import type {
-  IQuery,
-  IQueryFetchBoardArgs,
-} from "../../../../commons/types/generated/types";
+import type { IQuery, IQueryFetchBoardArgs } from "../../../../commons/types/generated/types";
 import { useMoveToPage } from "../../../commons/hooks/custom/useMoveToPage";
 
 export default function BoardList(): JSX.Element {
   const router = useRouter();
   const [keyword, setKeyword] = useState("");
-  const { data, refetch } = useQuery<
-    Pick<IQuery, "fetchBoards">,
-    IQueryFetchBoardArgs
-  >(FETCH_BOARDS);
+  const { data, refetch } = useQuery<Pick<IQuery, "fetchBoards">, IQueryFetchBoardArgs>(FETCH_BOARDS);
 
   const { oncLickMoveToPage } = useMoveToPage();
 
@@ -24,13 +18,12 @@ export default function BoardList(): JSX.Element {
   };
 
   const onCLickMoveDetail = (event: MouseEvent<HTMLDivElement>): void => {
-    if (event.target instanceof HTMLDivElement)
-      void router.push(`/boards/${event.target.id}`);
+    if (event.target instanceof HTMLDivElement) void router.push(`/boards/${event.target.id}`);
     // event.target이 태그일 수 도 아닐 수 도 있다.
     // console.log(event.currentTarget.id);
   };
 
-  const onChangeKeyword = (value: string) => {
+  const onChangeKeyword = (value: string): void => {
     setKeyword(value);
     console.log(keyword);
   };

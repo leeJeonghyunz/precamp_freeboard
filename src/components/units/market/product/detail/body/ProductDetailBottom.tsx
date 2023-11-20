@@ -94,7 +94,7 @@ export default function ProductDetailBottom(): JSX.Element {
           </S.ImageBox>
           <S.Content
             dangerouslySetInnerHTML={{
-              __html: Dompurify.sanitize(data?.fetchUseditem?.contents),
+              __html: Dompurify.sanitize(data?.fetchUseditem?.contents || ""),
             }}
           />
           <S.MapDiv>

@@ -1,9 +1,9 @@
-import { UseFormRegisterReturn } from "react-hook-form";
+import type { UseFormRegisterReturn } from "react-hook-form";
 
 interface IInputProps {
   tag: any;
   register: UseFormRegisterReturn;
-  data: string | undefined;
+  data?: string | undefined;
   defaultValue: any;
 }
 

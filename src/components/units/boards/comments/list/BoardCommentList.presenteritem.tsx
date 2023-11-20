@@ -5,30 +5,23 @@ import { useRouter } from "next/router";
 import type { MouseEvent, ChangeEvent } from "react";
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
-import type {
-  IMutation,
-  IMutationDeleteBoardCommentArgs,
-} from "../../../../../commons/types/generated/types";
+import type { IMutation, IMutationDeleteBoardCommentArgs } from "../../../../../commons/types/generated/types";
 import { DELETE_COMMENTS, FETCH_COMMENTS } from "./BoardCommentList.queries";
 import CommentWrite from "../write/BoardComment.container";
+import { wrapAsync } from "../../../../../commons/libraries/asyncFunc";
 
-export default function CommentListUIItem(
-  props: IBoardCommentListUIItemProps,
-): JSX.Element {
+export default function CommentListUIItem(props: IBoardCommentListUIItemProps): JSX.Element {
   const router = useRouter();
   const [password, setPassword] = useState("");
   const [boardCommentId, setBardCommentId] = useState("");
   const [isDelete, setIsDelete] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
 
-  const [deleteBoardComment] = useMutation<
-    Pick<IMutation, "deleteBoardComment">,
-    IMutationDeleteBoardCommentArgs
-  >(DELETE_COMMENTS);
+  const [deleteBoardComment] = useMutation<Pick<IMutation, "deleteBoardComment">, IMutationDeleteBoardCommentArgs>(
+    DELETE_COMMENTS,
+  );
 
-  const onClickDelete = async (
-    event: MouseEvent<HTMLDivElement>,
-  ): Promise<void> => {
+  const onClickDelete = async (): Promise<void> => {
     setIsDelete(false);
     // const password = prompt("비밀번호를 입력하시오.");
     // if (event.target instanceof HTMLDivElement)
@@ -47,7 +40,7 @@ export default function CommentListUIItem(
     alert("삭제되었습니다.");
   };
 
-  const onClickEdit = (event: MouseEvent<HTMLButtonElement>): void => {
+  const onClickEdit = (): void => {
     setIsEdit(true);
     // console.log(isEdit);
   };
@@ -57,9 +50,7 @@ export default function CommentListUIItem(
     setIsDelete(true);
   };
 
-  const onChangeDeletePassword = (
-    event: ChangeEvent<HTMLInputElement>,
-  ): void => {
+  const onChangeDeletePassword = (event: ChangeEvent<HTMLInputElement>): void => {
     setPassword(event.target.value);
   };
 
@@ -69,11 +60,10 @@ export default function CommentListUIItem(
         <S.PasswordModal
           title="모달 제목"
           open={isDelete}
-          onOk={onClickDelete}
+          onOk={wrapAsync(onClickDelete)}
           // onCancel={handleCancel}
         >
-          비밀번호 입력:{" "}
-          <input type="password" onChange={onChangeDeletePassword} />
+          비밀번호 입력: <input type="password" onChange={onChangeDeletePassword} />
         </S.PasswordModal>
       )}
       {!isEdit ? (
@@ -104,12 +94,7 @@ export default function CommentListUIItem(
           </S.Body>
         </S.Wrapper>
       ) : (
-        <CommentWrite
-          data={props.data}
-          el={props.el}
-          setIsEdit={setIsEdit}
-          isEdit={isEdit}
-        />
+        <CommentWrite data={props.data} el={props.el} setIsEdit={setIsEdit} isEdit={isEdit} />
       )}
     </div>
   );

@@ -5,7 +5,7 @@ import { useRecoilState, useRecoilValueLoadable } from "recoil";
 import { useEffect } from "react";
 import { onError } from "@apollo/client/link/error";
 import { getAccessToken } from "../../commons/libraries/getAccessToken";
-import { accessTokenState, isLoginState, restoreAccessTokenLoadable } from "../../commons/stores";
+import { accessTokenState, restoreAccessTokenLoadable } from "../../commons/stores";
 
 const GLOBAL_STATE = new InMemoryCache();
 interface IApolloSettings {
@@ -14,7 +14,6 @@ interface IApolloSettings {
 
 export default function ApolloSetting(props: IApolloSettings): JSX.Element {
   const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
-  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const aaa = useRecoilValueLoadable(restoreAccessTokenLoadable);
   useEffect(() => {
     // 1. 기존방식(refreshToken 이전 )

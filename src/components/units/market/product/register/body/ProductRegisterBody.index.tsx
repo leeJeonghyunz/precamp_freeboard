@@ -20,6 +20,7 @@ import type { Address } from "react-daum-postcode";
 import type { IUpdateUseditemInput } from "../../../../../../commons/types/generated/types";
 import "react-quill/dist/quill.snow.css";
 import { useQueryFetchUsedItem } from "../../../../../commons/hooks/queries/useQueryFetchUsedItem";
+import { FETCH_USEDITEM_ISOLD } from "../../../../mypage/Market.queries";
 
 export interface IFormData {
   name: string;
@@ -54,7 +55,7 @@ export default function ProductRegisterBody(props: IProductRegisterBodyProps): J
     try {
       const results = await Promise.all(files.map(async (el) => await uploadFile({ variables: { file: el } })));
       console.log("results:", results);
-      const resultUrls = results.map((el) => el.data?.uploadFile.url);
+      const resultUrls = results.map((el: any) => el.data?.uploadFile.url).filter((url): url is string => !!url);
       console.log("resultUrls:", resultUrls);
       const result = await createUseditem({
         variables: {
@@ -102,15 +103,9 @@ export default function ProductRegisterBody(props: IProductRegisterBodyProps): J
     void trigger("contents");
   };
 
-  const onChangeImages = (event: any): void => {
-    console.log(event.target.value);
-  };
-
   const onClickEdit = async (data: IFormData): Promise<void> => {
     const results = await Promise.all(files.map(async (el) => await uploadFile({ variables: { file: el } })));
-    console.log("results:", results);
-    const resultUrls = results.map((el) => el.data?.uploadFile.url);
-    console.log("resultUrls:", resultUrls);
+    const resultUrls = results.map((el) => el.data?.uploadFile.url).filter((url): url is string => !!url);
 
     const updateUseditemInput: IUpdateUseditemInput = {};
     if (data.name !== "") updateUseditemInput.name = data.name;
@@ -126,6 +121,9 @@ export default function ProductRegisterBody(props: IProductRegisterBodyProps): J
       refetchQueries: [
         {
           query: USED_ITEMS,
+        },
+        {
+          query: FETCH_USEDITEM_ISOLD,
         },
       ],
     });
@@ -144,8 +142,8 @@ export default function ProductRegisterBody(props: IProductRegisterBodyProps): J
           <span>내용</span>
           <ReactQuill
             style={{ height: "300px" }}
+            defaultValue={usedItem?.fetchUseditem.contents ?? ""}
             onChange={onChangeContents}
-            defaultValue={usedItem?.fetchUseditem.contents}
           />
         </S.Contents>
         <InputLong register={register("price")} tag="판매가격" defaultValue={usedItem?.fetchUseditem.price} />
@@ -153,13 +151,7 @@ export default function ProductRegisterBody(props: IProductRegisterBodyProps): J
         <InputLongNormal tag="태그입력" />
         <div>
           <p>사진첨부</p>
-          <ImageUpload01
-            setValue={setValue}
-            register={register("images")}
-            onChange={onChangeImages}
-            files={files}
-            setFiles={setFiles}
-          />
+          <ImageUpload01 files={files} setFiles={setFiles} />
         </div>
         <S.LoacationBox>
           <div>

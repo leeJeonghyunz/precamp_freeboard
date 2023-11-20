@@ -68,10 +68,7 @@ export default function BoardWriteUI(props: IBoardWriteUIProps): JSX.Element {
               />
               <S.SearchBtn onClick={props.onClickSearchAddress}>우편번호 검색</S.SearchBtn>
             </S.PostDiv2>
-            <S.PostInput
-              readOnly
-              value={props.address !== "" ? props.address : props.data?.fetchBoard.boardAddress?.address}
-            />
+            <S.PostInput readOnly value={props.data?.fetchBoard.boardAddress?.address ?? ""} />
             <S.PostInput
               onChange={props.onChangeAddressDetail}
               defaultValue={props.data?.fetchBoard.boardAddress?.addressDetail ?? ""}

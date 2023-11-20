@@ -2,7 +2,6 @@ import styled from "@emotion/styled";
 
 interface IProps {
   isMobile: boolean;
-  isActive: boolean;
 }
 
 export const BtnC = styled.button`

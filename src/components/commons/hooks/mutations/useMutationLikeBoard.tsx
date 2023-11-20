@@ -1,4 +1,5 @@
 import { gql, useMutation } from "@apollo/client";
+import type { MutationTuple } from "@apollo/client";
 import type {
   IMutation,
   IMutationDislikeBoardArgs,
@@ -17,20 +18,17 @@ export const DISLIKE_BOARD = gql`
   }
 `;
 
-export const useMutationLikeBoard = () => {
-  const mutation = useMutation<
-    Pick<IMutation, "likeBoard">,
-    IMutationLikeBoardArgs
-  >(LIKE_BOARD);
+export const useMutationLikeBoard = (): MutationTuple<Pick<IMutation, "likeBoard">, IMutationLikeBoardArgs> => {
+  const mutation = useMutation<Pick<IMutation, "likeBoard">, IMutationLikeBoardArgs>(LIKE_BOARD);
 
   return mutation;
 };
 
-export const useMutationDislikeBoard = () => {
-  const mutation = useMutation<
-    Pick<IMutation, "dislikeBoard">,
-    IMutationDislikeBoardArgs
-  >(DISLIKE_BOARD);
+export const useMutationDislikeBoard = (): MutationTuple<
+  Pick<IMutation, "dislikeBoard">,
+  IMutationDislikeBoardArgs
+> => {
+  const mutation = useMutation<Pick<IMutation, "dislikeBoard">, IMutationDislikeBoardArgs>(DISLIKE_BOARD);
 
   return mutation;
 };

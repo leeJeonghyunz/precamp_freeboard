@@ -12,7 +12,7 @@ export default function BoardDetailUI(props: IBoardDetailUIProps): JSX.Element {
 
   return (
     <>
-      <S.Body isMobile={isMobile}>
+      <S.Body>
         <S.Wrapper isMobile={isMobile}>
           <S.WrapperTop>
             <S.TitleDiv>

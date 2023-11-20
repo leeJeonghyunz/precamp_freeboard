@@ -1,12 +1,10 @@
-import { MouseEvent } from "react";
 import MypageSideBar from "../../commons/layout/mypagesidebar/MypageSidebar.container";
-import SearchBar from "../../commons/searchbar/SearchBar.container";
 import * as S from "./Market.Styles";
-import { IQuery } from "../../../commons/types/generated/types";
+import type { IQuery } from "../../../commons/types/generated/types";
 import { getDate } from "../../commons/libraries/utils";
 
 interface IMarketUI {
-  onClickMove: (event: MouseEvent<HTMLDivElement>) => void;
+  onClickMove: () => void;
   data: Pick<IQuery, "fetchUseditemsISold"> | undefined;
 }
 
@@ -22,7 +20,6 @@ export default function MarketUI(props: IMarketUI): JSX.Element {
               <span> | </span>
               <span> 마이찜</span>
             </S.MiniWrapper>
-            <SearchBar />
           </S.WrapperTop>
           <S.Table>
             <S.Row>

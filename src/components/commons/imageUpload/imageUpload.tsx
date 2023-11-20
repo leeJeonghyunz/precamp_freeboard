@@ -1,14 +1,9 @@
-import { useState, type ChangeEvent, useRef, Dispatch, SetStateAction } from "react";
-
 import * as S from "./styles";
-import type { UseFormRegisterReturn, UseFormSetValue } from "react-hook-form";
-import { useMutationUploadFile } from "../hooks/mutations/useMutationUploadFile";
-import { IFormData } from "../../units/market/product/register/body/ProductRegisterBody.index";
 import { wrapAsync } from "../../../commons/libraries/asyncFunc";
+import { useState } from "react";
+import type { ChangeEvent, Dispatch, SetStateAction } from "react";
 
 interface IInputProps {
-  register: UseFormRegisterReturn;
-  setValue: UseFormSetValue<IFormData>;
   files: File[];
   setFiles: Dispatch<SetStateAction<File[]>>;
 }
@@ -57,7 +52,7 @@ export default function ImageUpload01(props: IInputProps): JSX.Element {
         <input type="file" onChange={wrapAsync(onChangeImageFile(0))} />
         <input type="file" onChange={wrapAsync(onChangeImageFile(1))} />
         <input type="file" onChange={wrapAsync(onChangeImageFile(2))} />
-        <input value={images} {...props.register} name="images" style={{ display: "none" }} />
+        {/* <input value={images} {...props.register} name="images" style={{ display: "none" }} /> */}
       </S.Wrapper>
     </>
   );

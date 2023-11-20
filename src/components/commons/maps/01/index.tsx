@@ -4,11 +4,10 @@ declare const window: typeof globalThis & {
   kakao: any;
 };
 
-export default function KakaoMapPage(props): JSX.Element {
+export default function KakaoMapPage(props: any): JSX.Element {
   useEffect(() => {
     const script = document.createElement("script"); // <script><script>
-    script.src =
-      "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=fc953351e3e9b7cc41c86a636723c6ec";
+    script.src = "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=fc953351e3e9b7cc41c86a636723c6ec";
     document.head.appendChild(script); // head에 script추가
 
     script.onload = () => {
@@ -24,10 +23,7 @@ export default function KakaoMapPage(props): JSX.Element {
         console.log(map);
 
         // 마커가 표시될 위치입니다
-        const markerPosition = new window.kakao.maps.LatLng(
-          33.450701,
-          126.570667,
-        );
+        const markerPosition = new window.kakao.maps.LatLng(33.450701, 126.570667);
 
         // 마커를 생성합니다
         const marker = new window.kakao.maps.Marker({
